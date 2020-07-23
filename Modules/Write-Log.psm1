@@ -23,9 +23,10 @@ Parameter description
 An example
 
 .NOTES
-Version:        1.0
+Version:        1.1
 Author:         Zoran Jankov
 Creation Date:  21.07.2020.
+Update Date:    23.07.2020.	
 #>
 function Write-Log
 {
@@ -44,6 +45,11 @@ function Write-Log
         $LogSeparator
     )
 
+    begin
+    {
+        $log = [System.Collections.ArrayList]::new()
+    }
+
     process
     {
         if($LogSeparator -eq $null)
@@ -56,19 +62,26 @@ function Write-Log
             $logEntry = $LogSeparator
         }
 
-        if($Configuration.WRITE_REPORT -eq "true")
-        {
-            Add-content -Path $Configuration.REPORT -Value $logEntry
-        }
-
-        if($Configuration.WRITE_LOG -eq "true")
-        {
-            Add-content -Path $Configuration.LOG -Value $logEntry
-        }
+        $log.Add($logEntry)
 
         if($Configuration.WRITE_OUTPUT -eq "true")
         {
             Write-Output $logEntry
         }
+    }
+        
+    end
+    {
+        if($Configuration.WRITE_REPORT -eq "true")
+        {
+            Add-content -Path $Configuration.REPORT -Value $log
+        }
+
+        if($Configuration.WRITE_LOG -eq "true")
+        {
+            Add-content -Path $Configuration.LOG -Value $log
+        }
+
+        return [System.Collection.ArrayList]$log
     }
 }
