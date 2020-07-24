@@ -9,11 +9,12 @@ function Send-Report
 {
     param
     (
-        [Parameter(Position=0, Mandatory=$true, ValueFromPipeline=$false)]
+        [Parameter(Position=0, Mandatory=$true, ValueFromPipelineByPropertyName)]
         $Configuration,
 
-        [Parameter(Position=0, Mandatory=$true, ValueFromPipeline=$false)]
-        [string]$FinalMessage
+        [Parameter(Position=0, Mandatory=$true, ValueFromPipelineByPropertyName)]
+        [System.Collection.ArrayList]
+        $Log
 
     )
 

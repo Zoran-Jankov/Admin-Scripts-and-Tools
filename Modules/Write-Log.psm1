@@ -68,20 +68,15 @@ function Write-Log
         {
             Write-Output $logEntry
         }
-    }
-        
-    end
-    {
-        if($Configuration.WRITE_REPORT -eq "true")
-        {
-            Add-content -Path $Configuration.REPORT -Value $log
-        }
 
         if($Configuration.WRITE_LOG -eq "true")
         {
             Add-content -Path $Configuration.LOG -Value $log
         }
-
+    }
+        
+    end
+    {
         return [System.Collection.ArrayList]$log
     }
 }
