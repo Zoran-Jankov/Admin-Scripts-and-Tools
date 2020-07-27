@@ -48,7 +48,7 @@ function Write-Log
 
     begin
     {
-        $log = [System.Collections.ArrayList]::new()
+        $Log = [System.Collections.ArrayList]::new()
     }
 
     process
@@ -63,7 +63,7 @@ function Write-Log
             $logEntry = $LogSeparator
         }
 
-        $log.Add($logEntry)
+        $Log.Add($logEntry)
 
         if($Configuration.WriteHost -eq "true")
         {
@@ -78,6 +78,6 @@ function Write-Log
         
     end
     {
-        return [System.Collection.ArrayList]$log
+        Write-Output $Log
     }
 }
