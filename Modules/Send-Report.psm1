@@ -10,24 +10,30 @@ function Send-Report
     param
     (
         [Parameter(Position=0, Mandatory=$true, ValueFromPipelineByPropertyName)]
+        [hashtable]
         $Configuration,
 
         [Parameter(Position=0, Mandatory=$true, ValueFromPipelineByPropertyName)]
         [System.Collection.ArrayList]
         $Log
-
     )
 
     if($Configuration.SEND_REPORT -eq "true")
     {
-        $body = $Configuration.BODY + "`n" + $FinalMessage
-        Send-MailMessage -SmtpServer $Configuration.SMTP `
-                         -Port $Configuration.PORT `
-                         -To $Configuration.RECEIVER `
-                         -From $Configuration.SENDER `
-                         -Subject $Configuration.SUBJECT `
+        #Creating report log file
+        New-Item -Path '.\Report.log' -ItemType File
+        $report = '.\Report.log'
+        Add-content -Path $report -Value $Log
+
+        $body = $Configuration.Body + "`n" + $FinalMessage
+        Send-MailMessage -SmtpServer $Configuration.SmtpServer `
+                         -Port $Configuration.Port `
+                         -To $Configuration.To `
+                         -From $Configuration.From `
+                         -Subject $Configuration.Subject `
                          -Body $body `
                          -Attachments $report
+                         
+        Remove-Item -Path $report
     }
-	Remove-Item -Path $report
 }
