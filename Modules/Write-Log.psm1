@@ -34,6 +34,7 @@ function Write-Log
     param
     (
         [Parameter(Position=0, Mandatory=$true, ValueFromPipeline=$false)]
+        [hashtable]
         $Configuration,
         
         [Parameter(Position=1, Mandatory=$false, ValueFromPipeline=$true)]
