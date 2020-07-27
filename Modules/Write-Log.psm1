@@ -65,14 +65,14 @@ function Write-Log
 
         $log.Add($logEntry)
 
-        if($Configuration.WRITE_OUTPUT -eq "true")
+        if($Configuration.WriteHost -eq "true")
         {
-            Write-Output $logEntry
+            Write-Host $logEntry
         }
 
-        if($Configuration.WRITE_LOG -eq "true")
+        if($Configuration.WriteLog -eq "true")
         {
-            Add-content -Path $Configuration.LOG -Value $log
+            Add-content -Path $Configuration.Log -Value $logEntry
         }
     }
         
