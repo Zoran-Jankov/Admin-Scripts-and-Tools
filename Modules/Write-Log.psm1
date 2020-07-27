@@ -33,15 +33,15 @@ function Write-Log
     [CmdletBinding()]
     param
     (
-        [Parameter(Position=0, Mandatory=$true, ValueFromPipeline=$false)]
+        [Parameter(Position=0, Mandatory=$true, ValueFromPipelineByPropertyName = $true)]
         [hashtable]
         $Configuration,
         
-        [Parameter(Position=1, Mandatory=$false, ValueFromPipeline=$true)]
+        [Parameter(Position=1, Mandatory=$false, ValueFromPipelineByPropertyName = $true)]
         [String]
         $Message,
 
-        [Parameter(Position=2, Mandatory=$false, ValueFromPipeline=$false)]
+        [Parameter(Position=2, Mandatory=$false, ValueFromPipelineByPropertyName = $true)]
         [String]
         $LogSeparator
     )
