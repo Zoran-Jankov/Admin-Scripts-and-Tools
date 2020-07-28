@@ -44,7 +44,7 @@ function Deploy-Folder
 		else
 		{
 			$message = "Failed to create " + $Path + " folder"
-			Write-Log  -Message $message
+			Write-Log -OperationSuccessful "Failed" -Message $message
 			$operationSuccessful = $false
 		}
 	}

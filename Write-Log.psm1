@@ -30,7 +30,6 @@ Update Date:    23.07.2020.
 #>
 function Write-Log
 {
-    [CmdletBinding()]
     param
     (
         [Parameter(Position = 0, Mandatory = $true)]

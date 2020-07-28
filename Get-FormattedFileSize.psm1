@@ -16,7 +16,13 @@ General notes
 #>
 function Get-FormattedFileSize
 {
-    param($Size)
+    param
+    (
+        [Parameter(Position=0, Mandatory=$true)]
+        [long]
+        $Size
+    )
+
 
     If($Size -gt 1TB)
     {
