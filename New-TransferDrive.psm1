@@ -64,6 +64,5 @@ function New-TransferDrive
         Write-Log -OperationSuccessful "Failed" -Message $message
         $operationSuccessful = $false
     }
-
     return $operationSuccessful
 }
