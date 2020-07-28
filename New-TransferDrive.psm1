@@ -17,8 +17,8 @@ function New-TransferDrive
     )
 
     Import-Module '.\Write-Log.psm1'
-    
-    if(Test-Connection --TargetName $ComputerName -Quiet -Count 1)
+
+    if(Test-Connection -TargetName $ComputerName -Quiet -Count 1)
 	{
 		$message = "Successfully accessed " + $ComputerName + " remote computer"
 		Write-Log Write-Log -OperationSuccessful "Successful"-Message $message
@@ -64,5 +64,6 @@ function New-TransferDrive
         Write-Log -OperationSuccessful "Failed" -Message $message
         $operationSuccessful = $false
     }
+
     return $operationSuccessful
 }
