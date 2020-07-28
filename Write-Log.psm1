@@ -33,51 +33,57 @@ function Write-Log
     [CmdletBinding()]
     param
     (
-        [Parameter(Position=0, Mandatory=$true, ValueFromPipelineByPropertyName = $true)]
-        [hashtable]
+        [Parameter(Position = 0, Mandatory = $true)]
+        [Object[]]
         $Configuration,
+
+        [Parameter(Position = 1, Mandatory = $false)]
+        [String]
+        $OperationSuccessful,
         
-        [Parameter(Position=1, Mandatory=$false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(Position = 2, Mandatory = $false)]
         [String]
         $Message,
 
-        [Parameter(Position=2, Mandatory=$false, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(Position = 3, Mandatory = $false)]
         [String]
         $LogSeparator
     )
-
-    begin
+    if($LogSeparator -eq $null)
     {
-        $Log = [System.Collections.ArrayList]::new()
+        $timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
+    	$logEntry = $timestamp + " - " + $Message
+    }
+    else
+    {
+            $logEntry = $LogSeparator
     }
 
-    process
+    $Log.Add($logEntry)
+
+    if($Configuration.WriteHost -eq "true")
     {
-        if($LogSeparator -eq $null)
+        if($OperationSuccessful -eq "Successful")
         {
-            $timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
-    	    $logEntry = $timestamp + " - " + $Message
+            Write-Host $logEntry -ForegroundColor Green
+        }
+        elseif(-not $OperationSuccessful -eq "Failed")
+        {
+            Write-Host $logEntry -ForegroundColor Red
         }
         else
         {
-            $logEntry = $LogSeparator
-        }
-
-        $Log.Add($logEntry)
-
-        if($Configuration.WriteHost -eq "true")
-        {
-            Write-Host $logEntry
-        }
-
-        if($Configuration.WriteLog -eq "true")
-        {
-            Add-content -Path $Configuration.Log -Value $logEntry
+                Write-Host $logEntry -ForegroundColor Yellow
         }
     }
-        
-    end
+
+    if($Configuration.WriteLog -eq "true")
     {
-        Write-Output $Log
+        Add-content -Path $Configuration.Log -Value $logEntry
+    }
+
+    if($Configuration.SendReport -eq "true")
+    {
+        Write-Output $logEntry
     }
 }

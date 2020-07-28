@@ -22,11 +22,11 @@ function Send-Report
 {
     param
     (
-        [Parameter(Position=0, Mandatory=$true, ValueFromPipelineByPropertyName = $true)]
-        [hashtable]
+        [Parameter(Position=0, Mandatory=$true)]
+        [Object[]]
         $Configuration,
 
-        [Parameter(Position=1, Mandatory=$true, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(Position=1, Mandatory=$true)]
         [System.Collection.ArrayList]
         $Log
     )
