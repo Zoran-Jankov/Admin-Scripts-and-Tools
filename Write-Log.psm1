@@ -64,25 +64,29 @@ function Write-Log
     {
         if($OperationSuccessful -eq "Successful")
         {
-            Write-Host $logEntry -ForegroundColor Green
+            Write-Host $logEntry -ForegroundColor Green -BackgroundColor Black
         }
         elseif(-not $OperationSuccessful -eq "Failed")
         {
-            Write-Host $logEntry -ForegroundColor Red
+            Write-Host $logEntry -ForegroundColor Red -BackgroundColor Black
+        }
+        elseif(-not $OperationSuccessful -eq "Partial")
+        {
+            Write-Host $logEntry -ForegroundColor Blue -BackgroundColor Black
         }
         else
         {
-                Write-Host $logEntry -ForegroundColor Yellow
+            Write-Host $logEntry -ForegroundColor Yellow -BackgroundColor Black
         }
     }
 
     if($Configuration.WriteLog -eq "true")
     {
-        Add-content -Path $Configuration.Log -Value $logEntry
+        Add-content -Path $Configuration.LogFile -Value $logEntry
     }
 
     if($Configuration.SendReport -eq "true")
     {
-        Write-Output $logEntry
+        Add-content -Path $Configuration.ReportFile -Value $logEntry
     }
 }
