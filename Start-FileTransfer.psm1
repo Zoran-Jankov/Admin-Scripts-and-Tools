@@ -13,35 +13,41 @@ Name of the remote computer to which files are being transferred.
 #>
 function Start-FileTransfer
 {
-    [CmdletBinding()]
     param
     (
+        [Parameter(Position=0, Mandatory=$true)]
         [string]
-        $DestinationPath, 
+        $Configuration,
 
-        [string]$Computer
+        [Parameter(Position=1, Mandatory=$true)]
+        [string]
+        $Destination
     )
 
-	foreach($file in $filesPaths)
+    Import-Module '.\Write-Log.psm1'
+
+    $fileList = Get-Content -Path $Configuration.FileListPath
+
+	foreach($file in $fileList)
 	{
 		#File name extraction from file full path
 		$fileName = Split-Path $file -leaf
-
-		$message = "Attempting to transfer " + $fileName + " file to " + $Computer + " remote computer"
-		Write-Log -Message $message
 		
 		try
 		{
-			Copy-Item -Path $file -Destination $DestinationPath
-			$message = "Successfully transferred " + $fileName + " file to " + $Computer + " remote computer"
-			Write-Log -Message $message
+			Copy-Item -Path $file -Destination $Destination
 		}
 		catch
 		{
-			$message = "Failed to transfer " + $fileName + " file to " + $Computer + " remote computer"
-			Write-Log -Message $message
-			Write-Log -Message $_.Exception
-		}
+			Write-Log -OperationSuccessful "Failed" -LogSeparator $_.Exception
+        }
+
+        if(Get-Item -Path )
+        $message = "Successfully transferred " + $fileName + " file to " + $Destination
+        Write-Log -Message $message
+            
+        $message = "Failed to transfer " + $fileName + " file to " + $Destination
+		Write-Log -Message $message
 	}
 
 	$message = "Successfully transferred files to " + $Computer + " remote computer"
