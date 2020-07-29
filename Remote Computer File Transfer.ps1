@@ -77,16 +77,18 @@ foreach($computer in $computerList)
 
         if(Deploy-Folder -Path $path)
         {
-            
+            Start-FileTransfer -FileListPath $configuration.FileList -Destination $path
         }
         else
         {
-            
+            $message = "Canceld file transfer to " + $computer + " remote computer"
+	        Write-Log -OperationSuccessful "Failed" -Message $message
         }
     }
     else
     {
-        
+        $message = "Canceld file transfer to " + $computer + " remote computer"
+	    Write-Log -OperationSuccessful "Failed" -Message $message
     }
 
     #Network drive removal
