@@ -33,7 +33,14 @@ function Deploy-Folder
 		$message = "Failed to access " + $Path + " folder - MISSING FOLDER ERROR"
 		Write-Log -OperationSuccessful "Failed" -Message $message
 
-		New-Item -Path $Path -ItemType "Directory"
+		try
+		{
+			New-Item -Path $Path -ItemType "Directory"
+		}
+		catch
+		{
+			Write-Log -OperationSuccessful "Failed" -LogSeparator $_.Exception
+		}
 
 		if((Test-Path $Path) -eq $true)
 		{
