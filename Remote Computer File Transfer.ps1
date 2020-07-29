@@ -80,10 +80,18 @@ foreach($computer in $computerList)
 
 
 
-	#Network drive removal
-	Remove-PSDrive -Name $networkDrive
-	$message = "Successfully removed network drive from " + $computer + " remote computer"
-	Write-Log -Message $message
+    #Network drive removal
+    Remove-PSDrive -Name $networkDrive
+    if(Get-PSDrive -Name $networkDrive)
+    {
+        $message = "Failed to remove network drive from " + $computer + " remote computer"
+	    Write-Log -OperationSuccessful "Failed" -Message $message
+    }
+    else
+    {
+        $message = "Successfully removed network drive from " + $computer + " remote computer"
+	    Write-Log -OperationSuccessful "Successful" -Message $message
+    }
 }
 
 $message = "Completed Remote Computer File Transfer PowerShell Script"
