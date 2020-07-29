@@ -31,7 +31,6 @@ $networkDrive = 'T'
 
 #Initializing report file
 New-Item -Path $configuration.ReportFile -ItemType File
-$report = $configuration.ReportFile
 
 $fileList = Get-Content -Path $configuration.FileList
 $computerList = Get-Content -Path $configuration.ComputerList
@@ -72,13 +71,23 @@ Write-Log -OperationSuccessful "Successful" -Message "Successfully accessed all 
 Write-Log -Message "Started file transfer"
 foreach($computer in $computerList)
 {
+    if(New-TransferDrive -Drive $networkDrive -ComputerName $computer -Credential $credential)
+    {
+        $path = $networkDrive + ":\" + $configuration.TransferFolder
 
-
-
-
-
-
-
+        if(Deploy-Folder -Path $path)
+        {
+            
+        }
+        else
+        {
+            
+        }
+    }
+    else
+    {
+        
+    }
 
     #Network drive removal
     Remove-PSDrive -Name $networkDrive
