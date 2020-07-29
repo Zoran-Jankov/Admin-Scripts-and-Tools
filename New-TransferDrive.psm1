@@ -52,7 +52,7 @@ function New-TransferDrive
             }
             else
             {
-                $message = "Failed to map network drive to C partition on the " + $ComputerName + " remote computer"
+                $message = "Failed to map network drive to C partition on the " + $ComputerName + " remote computer - Credential not valid"
                 Write-Log -OperationSuccessful "Failed" -Message $message
                 $operationSuccessful = $false
             }

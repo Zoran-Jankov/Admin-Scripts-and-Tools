@@ -25,8 +25,6 @@ An example
 .NOTES
 Version:        1.1
 Author:         Zoran Jankov
-Creation Date:  21.07.2020.
-Update Date:    23.07.2020.	
 #>
 function Write-Log
 {

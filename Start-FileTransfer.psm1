@@ -69,7 +69,7 @@ function Start-FileTransfer
 
     if($failedTransfers -gt 0)
     {
-        $message = "Failed to transfer " + $fileName + " file to " + $Destination + " folder"
+        $message = "Failed to transfer " + $failedTransfers + " files to " + $Destination + " folder"
         Write-Log -OperationSuccessful "Failed" -Message $message
     }
 

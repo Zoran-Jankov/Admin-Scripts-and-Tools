@@ -3,20 +3,21 @@
 Sends a Report.log file to defined email address
 
 .DESCRIPTION
-This function sends a Report.log file as an attachment to defined email address. In Configuration hashtable parameter email
+This function sends a report log file as an attachment to defined email address. In configuration hashtable parameter email
 settings are defined.
 
 .PARAMETER Configuration
-Parameter Configuration is a hashtable that contains
+A hashtable that contains information about report log file location, mail settings and weather report should be sent at all.
 
-.PARAMETER Log
-Parameter description
+.PARAMETER FinalMessage
+Additional variable information to be sent in the mail body.
 
 .EXAMPLE
-An example
+Send-Report -Configuration '.\Configuration.cfg' -FinalMessage "Successful script execution"
 
 .NOTES
-General notes
+Version:        1.2
+Author:         Zoran Jankov
 #>
 function Send-Report
 {
@@ -27,18 +28,13 @@ function Send-Report
         $Configuration,
 
         [Parameter(Position=1, Mandatory=$true)]
-        [System.Collection.ArrayList]
-        $Log
+        [string]
+        $FinalMessage
     )
-
+3
     if($Configuration.SendReport -eq "true")
     {
-        #Creating report log file
-        New-Item -Path '.\Report.log' -ItemType File
-        $report = '.\Report.log'
-        Add-content -Path $report -Value $Log.
-
-        $body = $Configuration.Body + "`n" + $Log.get($Log.size() - 1)
+        $body = $Configuration.Body + "`n" + $FinalMessage
 
         Send-MailMessage -SmtpServer $Configuration.SmtpServer `
                          -Port $Configuration.Port `
@@ -46,8 +42,8 @@ function Send-Report
                          -From $Configuration.From `
                          -Subject $Configuration.Subject `
                          -Body $body `
-                         -Attachments $report
+                         -Attachments $Configuration.RreportFile
                          
-        Remove-Item -Path $report
+        Remove-Item -Path $Configuration.RreportFile
     }
 }
