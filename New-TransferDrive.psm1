@@ -21,7 +21,7 @@ function New-TransferDrive
     if(Test-Connection -TargetName $ComputerName -Quiet -Count 1)
 	{
 		$message = "Successfully accessed " + $ComputerName + " remote computer"
-		Write-Log Write-Log -OperationSuccessful "Successful"-Message $message
+		Write-Log -OperationSuccessful "Successful"-Message $message
 
         #Network path creation to D partition on the remote computer
         $partition = "\D$"

@@ -24,7 +24,7 @@ Import-Module '.\Send-Report.psm1'
 Clear-DnsClientCache
 
 #Loading script configuration
-$configuration = Get-Content '.\Remote Computer File Transfer Configuration.cfg' | Select-Object | ConvertFrom-StringData
+$configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
 
 #Defining network drive thru which files will be to transferred
 $networkDrive = 'T'
