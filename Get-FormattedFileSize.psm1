@@ -18,7 +18,7 @@ function Get-FormattedFileSize
 {
     param
     (
-        [Parameter(Position=0, Mandatory=$true)]
+        [Parameter(Position = 0, Mandatory = $true)]
         [long]
         $Size
     )

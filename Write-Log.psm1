@@ -23,7 +23,7 @@ Parameter description
 An example
 
 .NOTES
-Version:        1.1
+Version:        1.3
 Author:         Zoran Jankov
 #>
 function Write-Log
@@ -56,19 +56,17 @@ function Write-Log
             $logEntry = $LogSeparator
     }
 
-    $Log.Add($logEntry)
-
     if($Configuration.WriteHost -eq "true")
     {
         if($OperationSuccessful -eq "Successful")
         {
             Write-Host $logEntry -ForegroundColor Green -BackgroundColor Black
         }
-        elseif(-not $OperationSuccessful -eq "Failed")
+        elseif($OperationSuccessful -eq "Failed")
         {
             Write-Host $logEntry -ForegroundColor Red -BackgroundColor Black
         }
-        elseif(-not $OperationSuccessful -eq "Partial")
+        elseif($OperationSuccessful -eq "Partial")
         {
             Write-Host $logEntry -ForegroundColor Blue -BackgroundColor Black
         }

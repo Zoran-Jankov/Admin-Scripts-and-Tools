@@ -16,18 +16,18 @@ Additional variable information to be sent in the mail body.
 Send-Report -Configuration '.\Configuration.cfg' -FinalMessage "Successful script execution"
 
 .NOTES
-Version:        1.2
+Version:        1.3
 Author:         Zoran Jankov
 #>
 function Send-Report
 {
     param
     (
-        [Parameter(Position=0, Mandatory=$true)]
+        [Parameter(Position = 0, Mandatory = $true)]
         [Object[]]
         $Configuration,
 
-        [Parameter(Position=1, Mandatory=$true)]
+        [Parameter(Position = 1, Mandatory = $true)]
         [string]
         $FinalMessage
     )
@@ -44,6 +44,6 @@ function Send-Report
                          -Body $body `
                          -Attachments $Configuration.RreportFile
                          
-        Remove-Item -Path $Configuration.RreportFile
+        Remove-Item -Path $Configuration.ReportFile
     }
 }
