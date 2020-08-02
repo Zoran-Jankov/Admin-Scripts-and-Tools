@@ -16,10 +16,6 @@ function Deploy-Folder
 	param
 	(
 		[Parameter(Position = 0, Mandatory = $true)]
-        [Object[]]
-        $Configuration,
-
-		[Parameter(Position = 1, Mandatory = $true)]
 		[String]
 		$Path
 	)
@@ -29,13 +25,13 @@ function Deploy-Folder
     if((Test-Path $Path) -eq $true)
     {
 		$message = "Successfully accessed " + $Path + " folder"
-		Write-Log -Configuration $Configuration -OperationSuccessful "Successful" -Message $message
-		$operationSuccessful = $true
+		Write-Log -OperationResult Success -Message $message
+		$OperationResult  = $true
 	}
 	else
 	{
 		$message = "Failed to access " + $Path + " folder - MISSING FOLDER ERROR"
-		Write-Log -Configuration $Configuration -OperationSuccessful "Failed" -Message $message
+		Write-Log -OperationResult Fail -Message $message
 
 		try
 		{
@@ -43,21 +39,21 @@ function Deploy-Folder
 		}
 		catch
 		{
-			Write-Log -Configuration $Configuration -OperationSuccessful "Failed" -LogSeparator $_.Exception
+			Write-Log -OperationResult Fail -Message $_.Exception
 		}
 
 		if((Test-Path $Path) -eq $true)
 		{
 			$message = "Successfully created " + $Path + " folder"
-			Write-Log -Configuration $Configuration -OperationSuccessful "Successful" -Message $message
-			$operationSuccessful = $true
+			Write-Log -OperationResult Success-Message $message
+			$OperationResult  = $true
 		}
 		else
 		{
 			$message = "Failed to create " + $Path + " folder"
-			Write-Log -Configuration $Configuration -OperationSuccessful "Failed" -Message $message
-			$operationSuccessful = $false
+			Write-Log -OperationResult Fail -Message $message
+			$OperationResult  = $false
 		}
 	}
-	return $operationSuccessful
+	return $OperationResult 
 }

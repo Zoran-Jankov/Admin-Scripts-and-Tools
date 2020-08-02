@@ -28,7 +28,7 @@ function Write-Log
     param
     (
         [Parameter(Position = 0, Mandatory = $false)]
-        [ValidateSet('Success', 'Fail', 'Partial', 'Info', 'Error', 'None')]
+        [ValidateSet('Success', 'Fail', 'Partial', 'Error', 'None')]
         [String]$OperationResult = 'None',
         
         [Parameter(Position = 1, Mandatory = $true)]
@@ -44,35 +44,23 @@ function Write-Log
         'Success'
         {
             $foregroundColor = 'Green'
-            $backgroundColor = 'Black'
             break
         }
         'Fail'
         {
             $foregroundColor = 'Red'
-            $backgroundColor = 'Black'
             break
         }
 
         'Partial'
         {
             $foregroundColor = 'Cyan'
-            $backgroundColor = 'Black'
-            break
-        }
-
-        'Info'
-        {
-            $foregroundColor = 'Yellow'
-            $backgroundColor = 'Black'
-            $logEntry = $Message
             break
         }
 
         'Error'
         {
             $foregroundColor = 'Red'
-            $backgroundColor = 'Black'
             $logEntry = $Message
             break
         }
@@ -80,7 +68,7 @@ function Write-Log
         default
         { 
             $foregroundColor = 'Yellow'
-            $backgroundColor = 'Black'
+            $logEntry = $Message
         }
     }
     
@@ -88,7 +76,7 @@ function Write-Log
 
     if($configuration.WriteHost -eq "true")
     {
-        Write-Host $logEntry -ForegroundColor $foregroundColor -BackgroundColor $backgroundColor
+        Write-Host $logEntry -ForegroundColor $foregroundColor -BackgroundColor Black
     }
 
     if($configuration.WriteLog -eq "true")

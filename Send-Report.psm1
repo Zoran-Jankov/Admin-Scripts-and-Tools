@@ -28,7 +28,7 @@ function Send-Report
         $FinalMessage
     )
 
-    $configuration = Get-Content '.\configuration.cfg' | ConvertFrom-StringData
+    $configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
 
     if($configuration.SendReport -eq "true")
     {
@@ -40,7 +40,7 @@ function Send-Report
                          -From $configuration.From `
                          -Subject $configuration.Subject `
                          -Body $body `
-                         -Attachments $configuration.RreportFile
+                         -Attachments $configuration.ReportFile
                          
         Remove-Item -Path $configuration.ReportFile
     }

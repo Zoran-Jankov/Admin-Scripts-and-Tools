@@ -17,7 +17,7 @@ function Start-FileTransfer
     (
         [Parameter(Position = 0, Mandatory = $true)]
         [Object[]]
-        $Configuration,
+        $FileList,
 
         [Parameter(Position = 1, Mandatory = $true)]
         [string]
@@ -29,9 +29,7 @@ function Start-FileTransfer
     $successfulTransfers = 0
     $failedTransfers = 0
 
-    $fileList = Get-Content -Path $Configuration.FileList
-
-	foreach($file in $fileList)
+	foreach($file in $FileList)
 	{
 		#File name extraction from file full path
 		$fileName = Split-Path $file -leaf
@@ -42,50 +40,26 @@ function Start-FileTransfer
 		}
 		catch
 		{
-			Write-Log -Configuration $Configuration -OperationSuccessful "Failed" -LogSeparator $_.Exception
+			Write-Log -OperationResult Fail -Message $_.Exception
         }
 
-        $transferDestination = Join-Path -Path $Destination -ChildPath $file
+        $transferDestination = Join-Path -Path $Destination -ChildPath $fileName
 
         if(Test-Path -Path $transferDestination)
         {
             $message = "Successfully transferred " + $fileName + " file to " + $transferDestination + " folder"
-            Write-Log -Configuration $Configuration -OperationSuccessful "Successful" -Message $message
+            Write-Log -OperationResult Success -Message $message
             $successfulTransfers ++
         }
         else
         {
             $message = "Failed to transfer " + $fileName + " file to " + $Destination + " folder"
-            Write-Log -Configuration $Configuration -OperationSuccessful "Failed" -Message $message
+            Write-Log -OperationResult Fail -Message $message
             $failedTransfers ++
         }
     }
 
-    if($successfulTransfers -gt 0)
-    {
-        $message = "Successfully transferred " + $successfulTransfers + " files to " + $Destination + " folder"
-        Write-Log -Configuration $Configuration -OperationSuccessful "Successful" -Message $message
-    }
+    $Transfers = @{Successful = $successfulTransfers; Failed = $failedTransfers}
 
-    if($failedTransfers -gt 0)
-    {
-        $message = "Failed to transfer " + $failedTransfers + " files to " + $Destination + " folder"
-        Write-Log -Configuration $Configuration -OperationSuccessful "Failed" -Message $message
-    }
-
-    if(($successfulTransfers -gt 0 ) -and ($failedTransfers -eq 0))
-    {
-        $message = "Successfully transferred all files to " + $Destination + " folder"
-        Write-Log -Configuration $Configuration -OperationSuccessful "Successful" -Message $message
-    }
-    elseif(($successfulTransfers -gt 0 ) -and ($failedTransfers -gt 0))
-    {
-        $message = "Successfully transferred some files to " + $Destination + " folder with some failed"
-        Write-Log -Configuration $Configuration -OperationSuccessful "Partial" -Message $message
-    }
-    elseif(($successfulTransfers -eq 0 ) -and ($failedTransfers -gt 0))
-    {
-        $message = "Failed to transfer any file to " + $Destination + " folder"
-        Write-Log -Configuration $Configuration -OperationSuccessful "Failed" -Message $message
-    }
+    return $Transfers
 }
