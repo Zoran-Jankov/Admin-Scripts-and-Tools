@@ -45,7 +45,7 @@ function Deploy-Folder
 		if((Test-Path $Path) -eq $true)
 		{
 			$message = "Successfully created " + $Path + " folder"
-			Write-Log -OperationResult Success-Message $message
+			Write-Log -OperationResult Success -Message $message
 			$OperationResult  = $true
 		}
 		else
