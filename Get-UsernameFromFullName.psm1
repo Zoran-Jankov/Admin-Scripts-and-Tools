@@ -17,9 +17,9 @@ function Get-UsernameFromFullName
 
     switch ($LastNamePosition)
     {
-        'First' { $firstName = $usernameComponents.Length -1; $lastName = 0 }
-        'Last'  { $firstName = 0; $lastName = $usernameComponents.Length -1 }
-        Default { $firstName = $usernameComponents.Length -1; $lastName = 0 }
+        'First' { $firstName = $usernameComponents.Length - 1; $lastName = 0 }
+        'Last'  { $firstName = 0; $lastName = $usernameComponents.Length - 1 }
+        Default { $firstName = $usernameComponents.Length - 1; $lastName = 0 }
     }
 
     $chars = ($usernameComponents.Get($firstName) + "." + $usernameComponents.Get($lastName)).ToCharArray()
