@@ -29,7 +29,7 @@ function Get-UsernameFromFullName
         switch($char)
         {
             'ć' { $segment = "c" }
-            'č' { $segment = "č" }
+            'č' { $segment = "c" }
             'đ' { $segment = "dj" }
             'š' { $segment = "s" }
             'ž' { $segment = "z" }
