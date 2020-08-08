@@ -1,41 +1,39 @@
-function Get-UsernameFromFullName
+function Get-UserNameFromFullName
 {
     [CmdletBinding()]
     param
     (
-        [Parameter(Position = 0, Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
         $FullName,
 
-        [Parameter(Position = 1, Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet('First', 'Last')]
-        [string]
-        $LastNamePosition = 'First'
+        [Parameter(Position = 1, ValueFromPipelineByPropertyName)]
+        [switch]
+        $ReverseNamePositions = $false
     )
     
-    $usernameComponents = $FullName.ToLower().Split(" ")
-
-    switch ($LastNamePosition)
-    {
-        'First' { $firstName = $usernameComponents.Length - 1; $lastName = 0 }
-        'Last'  { $firstName = 0; $lastName = $usernameComponents.Length - 1 }
-        Default { $firstName = $usernameComponents.Length - 1; $lastName = 0 }
-    }
-
-    $chars = ($usernameComponents.Get($firstName) + "." + $usernameComponents.Get($lastName)).ToCharArray()
-
-    foreach($char in $chars)
-    {
-        switch($char)
+    process
+    {    
+        if ($ReverseNamePositions)
         {
-            'ć' { $segment = "c" }
-            'č' { $segment = "c" }
-            'đ' { $segment = "dj" }
-            'š' { $segment = "s" }
-            'ž' { $segment = "z" }
-            default { $segment = $char }
+            $Front = -1
+            $End = 0
         }
-        $Username += $segment
+        else
+        {
+            $Front = 0
+            $End = -1
+        }
+
+        $UserNameComponents = $FullName.Trim().ToLower().Split(' ')
+
+        $UserName = '{0}.{1}' -f $UserNameComponents[$Front], $UserNameComponents[$End]
+
+        $UserName -replace 'č', 'c' `
+                  -replace 'č', 'c' `
+                  -replace 'ć', 'c' `
+                  -replace 'đ', 'dj' `
+                  -replace 'š', 's' `
+                  -replace 'ž', 'z'
     }
-    return $Username
 }
