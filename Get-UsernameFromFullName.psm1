@@ -7,13 +7,13 @@ function Get-UserNameFromFullName
         [string]
         $FullName,
 
-        [Parameter(Position = 1, ValueFromPipelineByPropertyName)]
+        [Parameter(Position = 1, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [switch]
         $ReverseNamePositions = $false
     )
-    
-    process
-    {    
+
+    begin
+    {
         if ($ReverseNamePositions)
         {
             $Front = -1
@@ -24,7 +24,10 @@ function Get-UserNameFromFullName
             $Front = 0
             $End = -1
         }
+    }
 
+    process
+    {
         $UserNameComponents = $FullName.Trim().ToLower().Split(' ')
 
         $UserName = '{0}.{1}' -f $UserNameComponents[$Front], $UserNameComponents[$End]

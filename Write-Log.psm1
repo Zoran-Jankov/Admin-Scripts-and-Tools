@@ -28,7 +28,7 @@ function Write-Log
     param
     (
         [Parameter(Position = 0, Mandatory = $false)]
-        [ValidateSet('Success', 'Fail', 'Partial', 'Error', 'None')]
+        [ValidateSet('Success', 'Fail', 'Partial', 'Error', 'Info', 'None')]
         [String]$OperationResult = 'None',
         
         [Parameter(Position = 1, Mandatory = $true)]
@@ -46,6 +46,7 @@ function Write-Log
             $foregroundColor = 'Green'
             break
         }
+
         'Fail'
         {
             $foregroundColor = 'Red'
