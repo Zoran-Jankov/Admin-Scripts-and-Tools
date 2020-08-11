@@ -33,7 +33,7 @@ function Deploy-Folder {
 		Import-Module '.\Write-Log.psm1'
 	}
 
-	process {	
+	process {
 		if (-not $Cancel) {
 			if ((Test-Path $Path) -eq $true) {
 				$Message = "Successfully accessed " + $Path + " folder"
