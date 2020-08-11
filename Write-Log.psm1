@@ -4,7 +4,7 @@ Writes a log entry
 
 .DESCRIPTION
 Creates a log entry with timestamp and message passed thru a parameter $Message or thru pipeline, and saves the log entry to log
-file, to report log file, and writes the same entry to console. $configuration parameter contains path to configuration.inf file
+file, to report log file, and writes the same entry to console. $Configuration parameter contains path to configuration.inf file
 in witch paths to report log and permanent log file are contained, and option to turn on or off whether a report log, permanent
 log and console write should be written. This function can be called to write a log separator, and this entries do not have a
 timestamp. Format of the timestamp is "yyyy.MM.dd. HH:mm:ss:fff" and this function adds " - " after timestamp and before the main
@@ -34,47 +34,70 @@ function Write-Log {
         $Message
     )
 
-    $timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
-    $logEntry = $timestamp + " - " + $Message
-        
-    switch ($OperationResult) {
-        'Success' {
-            $foregroundColor = 'Green'
-            break
+    begin {
+
+        if (Test-Path -Path '.\Configuration.cfg') {
+            $Configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
+            $LogFile    = $Configuration.LogFile
+            $ReportFile = $Configuration.ReportFile
+            $WriteLog   = $Configuration.WriteLog -eq 'true'
+            $SendReport = $Configuration.SendReport -eq 'true'
+        }
+        else {
+            $LogFile    = '.\Log.log'
+            $ReportFile = '.\Report.log'
+            $WriteLog   = $true
+            $SendReport = $true
         }
 
-        'Fail' {
-            $foregroundColor = 'Red'
-            break
+        if (-not (Test-Path -Path $LogFile)) {
+            New-Item -Path $LogFile -ItemType File
         }
 
-        'Partial' {
-            $foregroundColor = 'Yellow'
-            break
-        }
-
-        'Info' {
-            $foregroundColor = 'Cyan'
-            break
-        }
-
-        'None' { 
-            $foregroundColor = 'White'
-            $logEntry = $Message
-        }
+        if (-not (Test-Path -Path $ReportFile)) {
+            New-Item -Path $ReportFile -ItemType File
+        }    
     }
     
-    $configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
+    process {
+        $Timestamp = Get-Date -Format 'yyyy.MM.dd. HH:mm:ss:fff'
+        $LogEntry = $Timestamp + " - " + $Message
 
-    if ($configuration.WriteHost -eq "true") {
-        Write-Host $logEntry -ForegroundColor $foregroundColor -BackgroundColor Black
-    }
-
-    if ($configuration.WriteLog -eq "true") {
-        Add-content -Path $configuration.LogFile -Value $logEntry
-    }
-
-    if ($configuration.SendReport -eq "true") {
-        Add-content -Path $configuration.ReportFile -Value $logEntry
+        switch ($OperationResult) {
+            'Success' {
+                $ForegroundColor = 'Green'
+                break
+            }
+    
+            'Fail' {
+                $ForegroundColor = 'Red'
+                break
+            }
+    
+            'Partial' {
+                $ForegroundColor = 'Yellow'
+                break
+            }
+    
+            'Info' {
+                $ForegroundColor = 'Cyan'
+                break
+            }
+    
+            'None' { 
+                $ForegroundColor = 'White'
+                $LogEntry = $Message
+            }
+        }
+        
+        Write-Host $LogEntry -ForegroundColor $ForegroundColor -BackgroundColor Black
+    
+        if ($WriteLog) {
+            Add-content -Path $LogFile -Value $LogEntry
+        }
+    
+        if ($SendReport) {
+            Add-content -Path $ReportFile -Value $LogEntry
+        }
     }
 }
