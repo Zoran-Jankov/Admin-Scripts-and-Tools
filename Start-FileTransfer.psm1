@@ -12,6 +12,7 @@ Full path to file transfer folder.
 Name of the remote computer to which files are being transferred.
 #>
 function Start-FileTransfer {
+    [CmdletBinding(SupportsShouldProcess = $true)]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipelineByPropertyName)]
         [Object[]]
@@ -25,7 +26,7 @@ function Start-FileTransfer {
     begin {
         Import-Module '.\Write-Log.psm1'
     }
-    
+
     process {
         $successfulTransfers = 0
         $failedTransfers = 0

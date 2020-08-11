@@ -29,7 +29,7 @@ function Write-Log {
         [ValidateSet('Success', 'Fail', 'Partial', 'Info', 'None')]
         [String]
         $OperationResult = 'None',
-        
+
         [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String]
         $Message
@@ -56,7 +56,7 @@ function Write-Log {
 
         if (-not (Test-Path -Path $ReportFile)) {
             New-Item -Path $ReportFile -ItemType File
-        }    
+        }
     }
     
     process {
@@ -84,7 +84,7 @@ function Write-Log {
                 break
             }
     
-            'None' { 
+            'None' {
                 $ForegroundColor = 'White'
                 $LogEntry = $Message
             }

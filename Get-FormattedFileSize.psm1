@@ -20,7 +20,7 @@ function Get-FormattedFileSize {
         [long]
         $Size
     )
-    
+
     If ($Size -gt 1TB) {
         $StringValue = [string]::Format("{0:0.00} TB", $Size / 1TB)
     }

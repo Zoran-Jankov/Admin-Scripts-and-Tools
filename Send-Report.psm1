@@ -38,7 +38,7 @@ function Send-Report {
                          -Subject $configuration.Subject `
                          -Body $body `
                          -Attachments $configuration.ReportFile
-                         
+
         Remove-Item -Path $configuration.ReportFile
     }
 }
