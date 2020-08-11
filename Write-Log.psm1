@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Writes a log entry
+Writes a log entry to console, log file and report file.
 
 .DESCRIPTION
 Creates a log entry with timestamp and message passed thru a parameter Message or thru pipeline, and saves the log entry to log
