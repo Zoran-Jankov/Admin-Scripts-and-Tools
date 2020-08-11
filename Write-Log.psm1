@@ -27,9 +27,10 @@ function Write-Log {
     param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName)]
         [ValidateSet('Success', 'Fail', 'Partial', 'Info', 'None')]
-        [String]$OperationResult = 'None',
+        [String]
+        $OperationResult = 'None',
         
-        [Parameter(Position = 1, Mandatory, ValueFromPipelineByPropertyName)]
+        [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String]
         $Message
     )
