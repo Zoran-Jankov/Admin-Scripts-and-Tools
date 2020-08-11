@@ -67,7 +67,7 @@ function Deploy-Folder {
 		else {
 			$Cancel = $true
 		}
-		
+
 		New-Object -TypeName psobject -Property @{
 			Cancel = $Cancel
 		}
