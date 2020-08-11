@@ -1,59 +1,75 @@
 <#
 .SYNOPSIS
-Creates transfer folder if it does not already exists
+Creates folder if it does not already exists.
 
 .DESCRIPTION
-This function check if defined transfer folder exists and if not it creates it on remote computer
+This function check if defined transfer folder exists and if not it creates it on remote computer.
 
 .PARAMETER Path
 Full path of the folder.
 
+.PARAMETER Cancel
+If Cancel parameter set to true the folder deployment is canceled. This is used in pipeline when it is important to skip this
+operation if last operation failed.
+
 .EXAMPLE
-Deploy-Folder -Path "\\RemoteComputer\D$\Transfer Folder"
+Deploy-Folder -Path 'D:\Folder\Folder'
+
+.EXAMPLE
+$PathList | Deploy-Folder
 #>
-function Deploy-Folder
-{
-	param
-	(
-		[Parameter(Position = 0, Mandatory = $true)]
+function Deploy-Folder {
+	param (
+		[Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
 		[String]
-		$Path
+		$Path,
+
+		[Parameter(Position = 1, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+		[boolean]
+		$Cancel = $false
 	)
 
-	Import-Module '.\Write-Log.psm1'
-
-    if((Test-Path $Path) -eq $true)
-    {
-		$message = "Successfully accessed " + $Path + " folder"
-		Write-Log -OperationResult Success -Message $message
-		$OperationResult  = $true
+	begin {
+		Import-Module '.\Write-Log.psm1'
 	}
-	else
-	{
-		$message = "Failed to access " + $Path + " folder - MISSING FOLDER ERROR"
-		Write-Log -OperationResult Fail -Message $message
 
-		try
-		{
-			New-Item -Path $Path -ItemType "Directory"
+	process {	
+		if (-not $Cancel) {
+			if ((Test-Path $Path) -eq $true) {
+				$Message = "Successfully accessed " + $Path + " folder"
+				$OperationResult  = 'Success'
+			}
+			else {
+				try {
+					New-Item -Path $Path -ItemType "Directory"
+				}
+				catch {
+					$Message = "Failed to create " + $Path + " folder `n" + $_.Exception
+					$OperationResult  = 'Fail'
+				}
+
+				if ((Test-Path $Path) -eq $true) {
+					$Message = "Successfully created " + $Path + " folder"
+					$OperationResult  = 'Success'
+				}
+			}
 		}
-		catch
-		{
-			Write-Log -OperationResult Fail -Message $_.Exception
+		else {
+			$Message = "Canceled " + $Path + " folder deployment"
+			$OperationResult  = 'Success'
 		}
 
-		if((Test-Path $Path) -eq $true)
-		{
-			$message = "Successfully created " + $Path + " folder"
-			Write-Log -OperationResult Success -Message $message
-			$OperationResult  = $true
+		Write-Log -OperationResult $OperationResult -Message $Message
+
+		if ($OperationResult -ne 'Fail') {
+			$Cancel = $false
 		}
-		else
-		{
-			$message = "Failed to create " + $Path + " folder"
-			Write-Log -OperationResult Fail -Message $message
-			$OperationResult  = $false
+		else {
+			$Cancel = $true
+		}
+		
+		New-Object -TypeName psobject -Property @{
+			Cancel = $Cancel
 		}
 	}
-	return $OperationResult 
 }

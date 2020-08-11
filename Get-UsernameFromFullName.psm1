@@ -1,8 +1,6 @@
-function Get-UserNameFromFullName
-{
+function Get-UserNameFromFullName {
     [CmdletBinding()]
-    param
-    (
+    param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
         $FullName,
@@ -12,22 +10,18 @@ function Get-UserNameFromFullName
         $ReverseNamePositions = $false
     )
 
-    begin
-    {
-        if ($ReverseNamePositions)
-        {
+    begin {
+        if ($ReverseNamePositions) {
             $Front = -1
             $End = 0
         }
-        else
-        {
+        else {
             $Front = 0
             $End = -1
         }
     }
 
-    process
-    {
+    process {
         $UserNameComponents = $FullName.Trim().ToLower().Split(' ')
 
         $UserName = '{0}.{1}' -f $UserNameComponents[$Front], $UserNameComponents[$End]

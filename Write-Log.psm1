@@ -20,18 +20,16 @@ Parameter description
 An example
 
 .NOTES
-Version:        1.4
+Version:        1.5
 Author:         Zoran Jankov
 #>
-function Write-Log
-{
-    param
-    (
-        [Parameter(Position = 0, Mandatory = $false)]
-        [ValidateSet('Success', 'Fail', 'Partial', 'Error', 'Info', 'None')]
+function Write-Log {
+    param (
+        [Parameter(Position = 0, ValueFromPipelineByPropertyName)]
+        [ValidateSet('Success', 'Fail', 'Partial', 'Info', 'None')]
         [String]$OperationResult = 'None',
         
-        [Parameter(Position = 1, Mandatory = $true)]
+        [Parameter(Position = 1, Mandatory, ValueFromPipelineByPropertyName)]
         [String]
         $Message
     )
@@ -39,54 +37,44 @@ function Write-Log
     $timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
     $logEntry = $timestamp + " - " + $Message
         
-    switch ($OperationResult)
-    {
-        'Success'
-        {
+    switch ($OperationResult) {
+        'Success' {
             $foregroundColor = 'Green'
             break
         }
 
-        'Fail'
-        {
+        'Fail' {
             $foregroundColor = 'Red'
             break
         }
 
-        'Partial'
-        {
+        'Partial' {
+            $foregroundColor = 'Yellow'
+            break
+        }
+
+        'Info' {
             $foregroundColor = 'Cyan'
             break
         }
 
-        'Error'
-        {
-            $foregroundColor = 'Red'
-            $logEntry = $Message
-            break
-        }
-
-        default
-        { 
-            $foregroundColor = 'Yellow'
+        'None' { 
+            $foregroundColor = 'White'
             $logEntry = $Message
         }
     }
     
     $configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
 
-    if($configuration.WriteHost -eq "true")
-    {
+    if ($configuration.WriteHost -eq "true") {
         Write-Host $logEntry -ForegroundColor $foregroundColor -BackgroundColor Black
     }
 
-    if($configuration.WriteLog -eq "true")
-    {
+    if ($configuration.WriteLog -eq "true") {
         Add-content -Path $configuration.LogFile -Value $logEntry
     }
 
-    if($configuration.SendReport -eq "true")
-    {
+    if ($configuration.SendReport -eq "true") {
         Add-content -Path $configuration.ReportFile -Value $logEntry
     }
 }

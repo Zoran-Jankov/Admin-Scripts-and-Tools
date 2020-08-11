@@ -19,19 +19,16 @@ Send-Report -FinalMessage "Successful script execution"
 Version:        1.4
 Author:         Zoran Jankov
 #>
-function Send-Report
-{
-    param
-    (
-        [Parameter(Position = 0, Mandatory = $true)]
+function Send-Report {
+    param (
+        [Parameter(Position = 0, Mandatory, ValueFromPipelineByPropertyName)]
         [string]
         $FinalMessage
     )
 
     $configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
 
-    if($configuration.SendReport -eq "true")
-    {
+    if ($configuration.SendReport -eq "true") {
         $body = $configuration.Body + "`n" + $FinalMessage
 
         Send-MailMessage -SmtpServer $configuration.SmtpServer `

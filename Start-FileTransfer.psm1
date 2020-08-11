@@ -11,55 +11,50 @@ Full path to file transfer folder.
 .PARAMETER Computer
 Name of the remote computer to which files are being transferred.
 #>
-function Start-FileTransfer
-{
-    param
-    (
-        [Parameter(Position = 0, Mandatory = $true)]
+function Start-FileTransfer {
+    param (
+        [Parameter(Position = 0, Mandatory, ValueFromPipelineByPropertyName)]
         [Object[]]
         $FileList,
 
-        [Parameter(Position = 1, Mandatory = $true)]
+        [Parameter(Position = 1, Mandatory, ValueFromPipelineByPropertyName)]
         [string]
         $Destination
     )
 
-    Import-Module '.\Write-Log.psm1'
+    begin {
+        Import-Module '.\Write-Log.psm1'
+    }
+    
+    process {
+        $successfulTransfers = 0
+        $failedTransfers = 0
 
-    $successfulTransfers = 0
-    $failedTransfers = 0
-
-	foreach($file in $FileList)
-	{
-		#File name extraction from file full path
-		$fileName = Split-Path $file -leaf
+	    foreach($file in $FileList) {
+		    #File name extraction from file full path
+		    $FileName = Split-Path $file -leaf
 		
-		try
-		{
-			Copy-Item -Path $file -Destination $Destination -Force
-		}
-		catch
-		{
-			Write-Log -OperationResult Fail -Message $_.Exception
-        }
+		    try {
+			    Copy-Item -Path $file -Destination $Destination -Force
+		    }
+		    catch {
+                $Message = "Failed to transfer " + $FileName + " file to " + $Destination + " folder `n" + $_.Exception
+                $OperationResult = 'Fail'
+                $failedTransfers ++
+            }
 
-        $transferDestination = Join-Path -Path $Destination -ChildPath $fileName
+            $TransferDestination = Join-Path -Path $Destination -ChildPath $FileName
 
-        if(Test-Path -Path $transferDestination)
-        {
-            $message = "Successfully transferred " + $fileName + " file to " + $transferDestination + " folder"
-            Write-Log -OperationResult Success -Message $message
-            $successfulTransfers ++
+            if(Test-Path -Path $TransferDestination) {
+                $Message = "Successfully transferred " + $FileName + " file to " + $TransferDestination + " folder"
+                $OperationResult = 'Success'
+                $successfulTransfers ++
+            }
+            Write-Log -OperationResult $OperationResult -Message $Message
         }
-        else
-        {
-            $message = "Failed to transfer " + $fileName + " file to " + $Destination + " folder"
-            Write-Log -OperationResult Fail -Message $message
-            $failedTransfers ++
+        New-Object -TypeName psobject -Property @{
+            Successful = $successfulTransfers
+            Failed = $failedTransfers
         }
     }
-
-    $Transfers = @{Successful = $successfulTransfers; Failed = $failedTransfers}
-
-    return $Transfers
 }
