@@ -21,24 +21,28 @@ Author:         Zoran Jankov
 #>
 function Send-Report {
     param (
-        [Parameter(Position = 0, Mandatory, ValueFromPipelineByPropertyName)]
+        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
         $FinalMessage
     )
 
-    $configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
+    begin {
+        $Configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
+    }
 
-    if ($configuration.SendReport -eq "true") {
-        $body = $configuration.Body + "`n" + $FinalMessage
-
-        Send-MailMessage -SmtpServer $configuration.SmtpServer `
-                         -Port $configuration.Port `
-                         -To $configuration.To `
-                         -From $configuration.From `
-                         -Subject $configuration.Subject `
-                         -Body $body `
-                         -Attachments $configuration.ReportFile
-
-        Remove-Item -Path $configuration.ReportFile
+    process {
+        if ($Configuration.SendReport -eq "true") {
+            $Body = $Configuration.Body + "`n" + $FinalMessage
+    
+            Send-MailMessage -SmtpServer $Configuration.SmtpServer `
+                             -Port $Configuration.Port `
+                             -To $Configuration.To `
+                             -From $Configuration.From `
+                             -Subject $Configuration.Subject `
+                             -Body $Body `
+                             -Attachments $Configuration.ReportFile
+    
+            Remove-Item -Path $Configuration.ReportFile
+        }
     }
 }
