@@ -39,7 +39,7 @@ function Start-FileTransfer {
 			    Copy-Item -Path $file -Destination $Destination -Force
 		    }
 		    catch {
-                $Message = "Failed to transfer " + $FileName + " file to " + $Destination + " folder `n" + $_.Exception
+                $Message = 'Failed to transfer ' + $FileName + ' file to ' + $Destination + ' folder `n' + $_.Exception
                 $OperationResult = 'Fail'
                 $failedTransfers ++
             }
@@ -47,7 +47,7 @@ function Start-FileTransfer {
             $TransferDestination = Join-Path -Path $Destination -ChildPath $FileName
 
             if(Test-Path -Path $TransferDestination) {
-                $Message = "Successfully transferred " + $FileName + " file to " + $TransferDestination + " folder"
+                $Message = 'Successfully transferred ' + $FileName + ' file to ' + $TransferDestination + ' folder'
                 $OperationResult = 'Success'
                 $successfulTransfers ++
             }

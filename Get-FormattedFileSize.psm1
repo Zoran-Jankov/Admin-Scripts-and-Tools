@@ -22,19 +22,19 @@ function Get-FormattedFileSize {
     )
 
     If ($Size -gt 1TB) {
-        $StringValue = [string]::Format("{0:0.00} TB", $Size / 1TB)
+        $StringValue = [string]::Format('{0:0.00} TB', $Size / 1TB)
     }
     elseIf ($Size -gt 1GB) {
-        $StringValue = [string]::Format("{0:0.00} GB", $Size / 1GB)
+        $StringValue = [string]::Format('{0:0.00} GB', $Size / 1GB)
     }
     elseIf ($Size -gt 1MB) {
-        $StringValue = [string]::Format("{0:0.00} MB", $Size / 1MB)
+        $StringValue = [string]::Format('{0:0.00} MB', $Size / 1MB)
     }
     elseIf ($Size -gt 1KB) {
-        $StringValue = [string]::Format("{0:0.00} kB", $Size / 1KB)
+        $StringValue = [string]::Format('{0:0.00} kB', $Size / 1KB)
     }
     else {
-        $StringValue = [string]::Format("{0:0.00} B", $Size)
+        $StringValue = [string]::Format('{0:0.00} B', $Size)
     }
 
     return $StringValue

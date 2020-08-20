@@ -36,26 +36,26 @@ function Deploy-Folder {
 	process {
 		if (-not $Cancel) {
 			if ((Test-Path $Path) -eq $true) {
-				$Message = "Successfully accessed " + $Path + " folder"
+				$Message = 'Successfully accessed ' + $Path + ' folder'
 				$OperationResult  = 'Success'
 			}
 			else {
 				try {
-					New-Item -Path $Path -ItemType "Directory"
+					New-Item -Path $Path -ItemType 'Directory'
 				}
 				catch {
-					$Message = "Failed to create " + $Path + " folder `n" + $_.Exception
+					$Message = 'Failed to create ' + $Path + ' folder `n' + $_.Exception
 					$OperationResult  = 'Fail'
 				}
 
 				if ((Test-Path $Path) -eq $true) {
-					$Message = "Successfully created " + $Path + " folder"
+					$Message = 'Successfully created ' + $Path + ' folder'
 					$OperationResult  = 'Success'
 				}
 			}
 		}
 		else {
-			$Message = "Canceled " + $Path + " folder deployment"
+			$Message = 'Canceled ' + $Path + ' folder deployment'
 			$OperationResult  = 'Success'
 		}
 

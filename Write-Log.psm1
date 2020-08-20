@@ -7,7 +7,7 @@ Creates a log entry with timestamp and message passed thru a parameter Message o
 file, to report log file, and writes the same entry to console. In Configuration.cfg file paths to report log and permanent log
 file are contained, and option to turn on or off whether a report log and permanent log should be written. If Configuration.cfg
 file is absent it loads the default values. Depending on the OperationResult parameter, log entry can be written with or without
-a timestamp. Format of the timestamp is "yyyy.MM.dd. HH:mm:ss:fff", and this function adds " - " after timestamp and before the
+a timestamp. Format of the timestamp is 'yyyy.MM.dd. HH:mm:ss:fff', and this function adds ' - ' after timestamp and before the
 main message.
 
 .PARAMETER OperationResult
@@ -41,7 +41,7 @@ function Write-Log {
             $LogFile    = $Configuration.LogFile
             $ReportFile = $Configuration.ReportFile
             $WriteLog   = $Configuration.WriteLog -eq 'true'
-            $SendReport = $Configuration.SendReport -eq 'true'
+            $SendReport = $Configuration.SendReport -eq 'false'
         }
         else {
             $LogFile    = '.\Log.log'
@@ -61,7 +61,7 @@ function Write-Log {
     
     process {
         $Timestamp = Get-Date -Format 'yyyy.MM.dd. HH:mm:ss:fff'
-        $LogEntry = $Timestamp + " - " + $Message
+        $LogEntry = $Timestamp + ' - ' + $Message
 
         switch ($OperationResult) {
             'Success' {

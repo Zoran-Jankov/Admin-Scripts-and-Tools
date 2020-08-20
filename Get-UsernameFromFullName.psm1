@@ -26,11 +26,6 @@ function Get-UserNameFromFullName {
 
         $UserName = '{0}.{1}' -f $UserNameComponents[$Front], $UserNameComponents[$End]
 
-        $UserName -replace 'č', 'c' `
-                  -replace 'č', 'c' `
-                  -replace 'ć', 'c' `
-                  -replace 'đ', 'dj' `
-                  -replace 'š', 's' `
-                  -replace 'ž', 'z'
+        $UserName.Replace('č', 'c').Replace('ć', 'c').Replace('đ', 'dj').Replace('š', 's').Replace('ž', 'z')
     }
 }

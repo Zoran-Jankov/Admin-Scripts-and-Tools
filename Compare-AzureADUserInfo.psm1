@@ -1,4 +1,4 @@
-Compare-AzureADUserInfo {
+function Compare-AzureADUserInfo {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
@@ -18,20 +18,26 @@ Compare-AzureADUserInfo {
         'City',
         'PostalCode'
         )
+
+        $Changes = $false
     }
 
     process {
         foreach ($UserAttribute in $UserAttributes) {
 
-            $AzureADUserAttributeValue = $AzureADUSer | Select-Object -Property $UserAttribute
+            $AzureADUserAttributeValue = $AzureADUser | Select-Object -Property $UserAttribute
             $UserAttributeValue = $Employee | Select-Object -Property $UserAttribute
 
-            if ($AzureADUserAttributeValue -ne $UserAttributeValue) {
-                Write-Host -ForegroundColor Yellow -Object 'Old value:'
-                Write-Host -ForegroundColor Yellow -Object $AzureADUserAttributeValue
-                Write-Host -ForegroundColor Cyan -Object 'New value:'
-                Write-Host -ForegroundColor Cyan -Object $UserAttributeValue
+            if ($AzureADUserAttributeValue.$UserAttribute -ne $UserAttributeValue.$UserAttribute) {
+                Write-Host -ForegroundColor Green -Object $UserAttribute
+                Write-Host -ForegroundColor Yellow -Object ('Old value: ' + $AzureADUserAttributeValue.$UserAttribute)
+                Write-Host -ForegroundColor Cyan -Object ('New value: ' + $UserAttributeValue.$UserAttribute + '`n')
+                $Changes = $true
             }
         }
-    } 
+    }
+    
+    end {
+        return $Changes
+    }
 }
