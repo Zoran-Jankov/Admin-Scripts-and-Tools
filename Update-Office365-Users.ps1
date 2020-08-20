@@ -2,7 +2,7 @@ Import-Module '.\Write-Log.psm1'
 Import-Module '.\Compare-AzureADUserInfo.psm1'
 Import-Module '.\Set-AzureADUserInfo.psm1'
 
-$Path = '.\SAP-Zaposleni-Test.csv'
+$Path = '.\Employees.csv'
 
 $Employees = Import-Csv -Path $Path -Delimiter ';' -Encoding utf8
 

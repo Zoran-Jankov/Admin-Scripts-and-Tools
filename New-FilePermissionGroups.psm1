@@ -20,20 +20,35 @@ function New-FilePermissionGroups {
     }
 
     process {
-        $Name = 'PG-RW-' + (Split-Path -Path $Path -Leaf).ToUpper().Replace(' ','_')
-        try {
-            New-ADOrganizationalUnit -Name $Name `
-                                     -DisplayName $Name `
-                                     -Path $OUPath `
-                                     -StreetAddress $Configuration.StreetAddress `
-                                     -City $Configuration.City `
-                                     -State $Configuration.State `
-                                     -Country $Configuration.Country `
-                                     -ProtectedFromAccidentalDeletion $true `
-                                     -Description $Path
+        $BaseName = (Split-Path -Path $FolderPath -Leaf).Trim().
+                                                         Replace(' ','_').
+                                                         Replace('č', 'c').
+                                                         Replace('ć', 'c').
+                                                         Replace('đ', 'dj').
+                                                         Replace('š', 's').
+                                                         Replace('ž', 'z').
+                                                         ToUpper()
+        $GroupPrefixes = @(
+            'PG-RW-',
+            'PG-RO-'
+        )
+
+        foreach ($GroupPrefix in $GroupPrefixes) {
+            $Name = $GroupPrefix + $BaseName
+            try {
+                New-ADOrganizationalUnit -Name $Name `
+                                         -DisplayName $Name `
+                                         -Path $OUPath `
+                                         -StreetAddress $Configuration.StreetAddress `
+                                         -City $Configuration.City `
+                                         -State $Configuration.State `
+                                         -Country $Configuration.Country `
+                                         -ProtectedFromAccidentalDeletion $true `
+                                         -Description $FolderPath
+            }
+            catch {
+                #TODO Write-Log
+            } 
         }
-        catch {
-            
-        } 
     }
 }
