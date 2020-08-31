@@ -10,27 +10,27 @@ function New-FilePermissionGroups {
 
         [Parameter(Position = 2, ValueFromPipelineByPropertyName)]
         [Object[]]
-        $Configuration = 'NOT DEFINED'
+        $Configuration = "NOT DEFINED"
     )
     
     begin {
-        if ($Configuration -eq 'NOT DEFINED') {
-            $Configuration = Get-Content -Path 'Configuration.cfg'
+        if ($Configuration -eq "NOT DEFINED") {
+            $Configuration = Get-Content -Path "Configuration.cfg"
         }
     }
 
     process {
         $BaseName = (Split-Path -Path $FolderPath -Leaf).Trim().
-                                                         Replace(' ','_').
-                                                         Replace('č', 'c').
-                                                         Replace('ć', 'c').
-                                                         Replace('đ', 'dj').
-                                                         Replace('š', 's').
-                                                         Replace('ž', 'z').
+                                                         Replace(" ","_").
+                                                         Replace("č", "c").
+                                                         Replace("ć", "c").
+                                                         Replace("đ", "dj").
+                                                         Replace("š", "s").
+                                                         Replace("ž", "z").
                                                          ToUpper()
         $GroupPrefixes = @(
-            'PG-RW-',
-            'PG-RO-'
+            "PG-RW-",
+            "PG-RO-"
         )
 
         foreach ($GroupPrefix in $GroupPrefixes) {

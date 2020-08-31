@@ -22,10 +22,10 @@ function Get-UserNameFromFullName {
     }
 
     process {
-        $UserNameComponents = $FullName.Trim().ToLower().Split(' ')
+        $UserNameComponents = $FullName.Trim().ToLower().Split(" ")
 
-        $UserName = '{0}.{1}' -f $UserNameComponents[$Front], $UserNameComponents[$End]
+        $UserName = "{0}.{1}" -f $UserNameComponents[$Front], $UserNameComponents[$End]
 
-        $UserName.Replace('č', 'c').Replace('ć', 'c').Replace('đ', 'dj').Replace('š', 's').Replace('ž', 'z')
+        $UserName.Replace("č", "c").Replace("ć", "c").Replace("đ", "dj").Replace("š", "s").Replace("ž", "z")
     }
 }

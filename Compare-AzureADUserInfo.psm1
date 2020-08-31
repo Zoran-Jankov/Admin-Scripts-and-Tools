@@ -12,11 +12,11 @@ function Compare-AzureADUserInfo {
 
     begin {
         $UserAttributes = @(
-        'JobTitle',
-        'Department',
-        'StreetAddress',
-        'City',
-        'PostalCode'
+        "JobTitle",
+        "Department",
+        "StreetAddress",
+        "City",
+        "PostalCode"
         )
 
         $Changes = $false
@@ -30,8 +30,8 @@ function Compare-AzureADUserInfo {
 
             if ($AzureADUserAttributeValue.$UserAttribute -ne $UserAttributeValue.$UserAttribute) {
                 Write-Host -ForegroundColor Green -Object $UserAttribute
-                Write-Host -ForegroundColor Yellow -Object ('Old value: ' + $AzureADUserAttributeValue.$UserAttribute)
-                Write-Host -ForegroundColor Cyan -Object ('New value: ' + $UserAttributeValue.$UserAttribute + '`n')
+                Write-Host -ForegroundColor Yellow -Object ("Old value: " + $AzureADUserAttributeValue.$UserAttribute)
+                Write-Host -ForegroundColor Cyan -Object ("New value: " + $UserAttributeValue.$UserAttribute + "`n")
                 $Changes = $true
             }
         }

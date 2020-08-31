@@ -13,7 +13,7 @@ A hashtable that contains information about report log file location, mail setti
 Additional variable information to be sent in the mail body.
 
 .EXAMPLE
-Send-Report -FinalMessage 'Successful script execution'
+Send-Report -FinalMessage "Successful script execution"
 
 .NOTES
 Version:        1.4
@@ -27,12 +27,12 @@ function Send-Report {
     )
 
     begin {
-        $Configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
+        $Configuration = Get-Content ".\Configuration.cfg" | ConvertFrom-StringData
     }
 
     process {
-        if ($Configuration.SendReport -eq 'true') {
-            $Body = $Configuration.Body + '`n' + $FinalMessage
+        if ($Configuration.SendReport -eq "true") {
+            $Body = $Configuration.Body + "`n" + $FinalMessage
     
             Send-MailMessage -SmtpServer $Configuration.SmtpServer `
                              -Port $Configuration.Port `

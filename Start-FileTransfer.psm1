@@ -3,7 +3,7 @@
 Transfers files from defined list to remote computer.
 
 .DESCRIPTION
-Transfers files from '.\Files Paths.txt' list to remote computer. Log errors while file transfering.
+Transfers files from ".\Files Paths.txt" list to remote computer. Log errors while file transfering.
 
 .PARAMETER DestinationPath
 Full path to file transfer folder.
@@ -24,7 +24,7 @@ function Start-FileTransfer {
     )
 
     begin {
-        Import-Module '.\Write-Log.psm1'
+        Import-Module ".\Write-Log.psm1"
     }
 
     process {
@@ -39,16 +39,16 @@ function Start-FileTransfer {
 			    Copy-Item -Path $file -Destination $Destination -Force
 		    }
 		    catch {
-                $Message = 'Failed to transfer ' + $FileName + ' file to ' + $Destination + ' folder `n' + $_.Exception
-                $OperationResult = 'Fail'
+                $Message = "Failed to transfer " + $FileName + " file to " + $Destination + " folder `n" + $_.Exception
+                $OperationResult = "Fail"
                 $failedTransfers ++
             }
 
             $TransferDestination = Join-Path -Path $Destination -ChildPath $FileName
 
             if(Test-Path -Path $TransferDestination) {
-                $Message = 'Successfully transferred ' + $FileName + ' file to ' + $TransferDestination + ' folder'
-                $OperationResult = 'Success'
+                $Message = "Successfully transferred " + $FileName + " file to " + $TransferDestination + " folder"
+                $OperationResult = "Success"
                 $successfulTransfers ++
             }
             Write-Log -OperationResult $OperationResult -Message $Message
