@@ -27,11 +27,11 @@ function Send-Report {
     )
 
     begin {
-        $Configuration = Get-Content ".\Configuration.cfg" | ConvertFrom-StringData
+        $Configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
     }
 
     process {
-        if ($Configuration.SendReport -eq "true") {
+        if ($Configuration.SendReport -eq 'true') {
             $Body = $Configuration.Body + "`n" + $FinalMessage
     
             Send-MailMessage -SmtpServer $Configuration.SmtpServer `

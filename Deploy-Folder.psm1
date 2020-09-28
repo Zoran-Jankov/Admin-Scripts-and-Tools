@@ -30,38 +30,38 @@ function Deploy-Folder {
 	)
 
 	begin {
-		Import-Module ".\Write-Log.psm1"
+		Import-Module '.\Write-Log.psm1'
 	}
 
 	process {
 		if (-not $Cancel) {
 			if ((Test-Path $Path) -eq $true) {
 				$Message = "Successfully accessed " + $Path + " folder"
-				$OperationResult  = "Success"
+				$OperationResult  = 'Success'
 			}
 			else {
 				try {
-					New-Item -Path $Path -ItemType "Directory"
+					New-Item -Path $Path -ItemType 'Directory'
 				}
 				catch {
 					$Message = "Failed to create " + $Path + " folder `n" + $_.Exception
-					$OperationResult  = "Fail"
+					$OperationResult  = 'Fail'
 				}
 
 				if ((Test-Path $Path) -eq $true) {
 					$Message = "Successfully created " + $Path + " folder"
-					$OperationResult  = "Success"
+					$OperationResult  = 'Success'
 				}
 			}
 		}
 		else {
 			$Message = "Canceled " + $Path + " folder deployment"
-			$OperationResult  = "Success"
+			$OperationResult  = 'Success'
 		}
 
 		Write-Log -OperationResult $OperationResult -Message $Message
 
-		if ($OperationResult -ne "Fail") {
+		if ($OperationResult -ne 'Fail') {
 			$Cancel = $false
 		}
 		else {

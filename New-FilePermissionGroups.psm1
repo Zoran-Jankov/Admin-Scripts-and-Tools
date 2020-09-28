@@ -21,6 +21,7 @@ function New-FilePermissionGroups {
 
     process {
         $BaseName = (Split-Path -Path $FolderPath -Leaf).Trim().
+														 ToLower().
                                                          Replace(" ","_").
                                                          Replace("č", "c").
                                                          Replace("ć", "c").
@@ -36,15 +37,12 @@ function New-FilePermissionGroups {
         foreach ($GroupPrefix in $GroupPrefixes) {
             $Name = $GroupPrefix + $BaseName
             try {
-                New-ADOrganizationalUnit -Name $Name `
-                                         -DisplayName $Name `
-                                         -Path $OUPath `
-                                         -StreetAddress $Configuration.StreetAddress `
-                                         -City $Configuration.City `
-                                         -State $Configuration.State `
-                                         -Country $Configuration.Country `
-                                         -ProtectedFromAccidentalDeletion $true `
-                                         -Description $FolderPath
+                New-ADGroup -Name $Name `
+                            -DisplayName $Name `
+                            -Path $OUPath `
+							-GroupCategory Security `
+							-GroupScope Global `
+                            -Description $FolderPath
             }
             catch {
                 #TODO Write-Log

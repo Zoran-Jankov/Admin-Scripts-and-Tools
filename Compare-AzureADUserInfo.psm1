@@ -12,11 +12,11 @@ function Compare-AzureADUserInfo {
 
     begin {
         $UserAttributes = @(
-        "JobTitle",
-        "Department",
-        "StreetAddress",
-        "City",
-        "PostalCode"
+        'JobTitle',
+        'Department',
+        'StreetAddress',
+        'City',
+        'PostalCode'
         )
 
         $Changes = $false

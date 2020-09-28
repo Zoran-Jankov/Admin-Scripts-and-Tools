@@ -26,9 +26,9 @@ Author:         Zoran Jankov
 function Write-Log {
     param (
         [Parameter(Position = 0, ValueFromPipelineByPropertyName)]
-        [ValidateSet("Success", "Fail", "Partial", "Info", "None")]
+        [ValidateSet('Success', 'Fail', 'Partial', 'Info', 'None')]
         [String]
-        $OperationResult = "None",
+        $OperationResult = 'None',
 
         [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String]
@@ -36,16 +36,16 @@ function Write-Log {
     )
 
     begin {
-        if (Test-Path -Path ".\Configuration.cfg") {
-            $Configuration = Get-Content ".\Configuration.cfg" | ConvertFrom-StringData
+        if (Test-Path -Path '.\Configuration.cfg') {
+            $Configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
             $LogFile    = $Configuration.LogFile
             $ReportFile = $Configuration.ReportFile
             $WriteLog   = $Configuration.WriteLog -eq "true"
             $SendReport = $Configuration.SendReport -eq "false"
         }
         else {
-            $LogFile    = ".\Log.log"
-            $ReportFile = ".\Report.log"
+            $LogFile    = '.\Log.log'
+            $ReportFile = '.\Report.log'
             $WriteLog   = $true
             $SendReport = $true
         }

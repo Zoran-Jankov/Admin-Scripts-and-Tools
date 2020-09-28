@@ -24,7 +24,7 @@ function Start-FileTransfer {
     )
 
     begin {
-        Import-Module ".\Write-Log.psm1"
+        Import-Module '.\Write-Log.psm1'
     }
 
     process {
@@ -40,7 +40,7 @@ function Start-FileTransfer {
 		    }
 		    catch {
                 $Message = "Failed to transfer " + $FileName + " file to " + $Destination + " folder `n" + $_.Exception
-                $OperationResult = "Fail"
+                $OperationResult = 'Fail'
                 $failedTransfers ++
             }
 
@@ -48,7 +48,7 @@ function Start-FileTransfer {
 
             if(Test-Path -Path $TransferDestination) {
                 $Message = "Successfully transferred " + $FileName + " file to " + $TransferDestination + " folder"
-                $OperationResult = "Success"
+                $OperationResult = 'Success'
                 $successfulTransfers ++
             }
             Write-Log -OperationResult $OperationResult -Message $Message
