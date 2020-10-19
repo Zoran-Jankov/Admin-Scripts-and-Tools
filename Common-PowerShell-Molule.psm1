@@ -526,10 +526,14 @@ function New-FilePermissionGroups {
 							-GroupCategory Security `
 							-GroupScope Global `
                             -Description $FolderPath
+                $Message = "Successfully created " + $Name + " AD group"
+                $OperationResult = 'Success'
             }
             catch {
-                #TODO Write-Log
-            } 
+                $Message = "Failed to create " + $Name + " AD group `n" + $_.Exception
+                $OperationResult = 'Fail'
+            }
+            Write-Log -OperationResult $OperationResult -Message $Message
         }
     }
 }
