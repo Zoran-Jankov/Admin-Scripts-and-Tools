@@ -1,3 +1,85 @@
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER AzureADUser
+Parameter description
+
+.PARAMETER Employee
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
+function Compare-AzureADUserInfo {
+    [CmdletBinding()]
+    param (
+        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Microsoft.Open.AzureAD.Model.DirectoryObject]
+        $AzureADUser,
+
+        [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Object[]]
+        $Employee
+    )
+
+    begin {
+        $UserAttributes = @(
+        'JobTitle',
+        'Department',
+        'StreetAddress',
+        'City',
+        'PostalCode'
+        )
+
+        $Changes = $false
+    }
+
+    process {
+        foreach ($UserAttribute in $UserAttributes) {
+
+            $AzureADUserAttributeValue = $AzureADUser | Select-Object -Property $UserAttribute
+            $UserAttributeValue = $Employee | Select-Object -Property $UserAttribute
+
+            if ($AzureADUserAttributeValue.$UserAttribute -ne $UserAttributeValue.$UserAttribute) {
+                Write-Host -ForegroundColor Green -Object $UserAttribute
+                Write-Host -ForegroundColor Yellow -Object ("Old value: " + $AzureADUserAttributeValue.$UserAttribute)
+                Write-Host -ForegroundColor Cyan -Object ("New value: " + $UserAttributeValue.$UserAttribute + "`n")
+                $Changes = $true
+            }
+        }
+    }
+    
+    end {
+        return $Changes
+    }
+}
+
+<#
+.SYNOPSIS
+Short description
+
+.DESCRIPTION
+Long description
+
+.PARAMETER AzureADUser
+Parameter description
+
+.PARAMETER Employee
+Parameter description
+
+.EXAMPLE
+An example
+
+.NOTES
+General notes
+#>
 function Set-AzureADUserInfo {
     [CmdletBinding()]
     param (
@@ -11,7 +93,7 @@ function Set-AzureADUserInfo {
     )
 
     begin {
-        Import-Module '.\Write-Log.psm1'
+        Import-Module '.\Common-PowerShell-Molule.psm1'
     }
 
     process {
