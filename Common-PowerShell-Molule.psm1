@@ -27,7 +27,7 @@ function Write-Log {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [String]
+        [string]
         $Message
     )
 
@@ -201,7 +201,7 @@ function New-Folder {
     [CmdletBinding()]
 	param (
 		[Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-		[String]
+		[string]
 		$Path,
 
 		[Parameter(Position = 1, ValueFromPipeline, ValueFromPipelineByPropertyName)]
@@ -282,7 +282,6 @@ function Get-FormattedFileSize {
     else {
         $StringValue = [string]::Format('{0:0.00} B', $Size)
     }
-
     return $StringValue
 }
 
@@ -306,7 +305,7 @@ function Convert-SerbianToEnglish {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [String]
+        [string]
         $String
     )
     
@@ -322,7 +321,6 @@ function Convert-SerbianToEnglish {
                 Replace('Š', 'S').
                 Replace('Ž', 'Z')
     }
-    
 }
 
 <#
@@ -445,5 +443,46 @@ function New-FilePermissionGroups {
             }
             Write-Log -Message $Message
         }
+    }
+}
+
+
+function Remove-Files
+{
+    [CmdletBinding()]
+    param (
+        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [string]
+        $Path,
+
+        [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Object[]]
+        $FileNames
+    )
+
+    process {
+        [long] $FolderSpaceFreed = 0;
+        [short] $FilesRemoved = 0;
+    
+        foreach($File in $FileList) {       
+            $FileSize  = (Get-Item -Path $File.FullName).Length
+            $SpaceFreed = Get-FormattedFileSize -Size $FileSize
+            Remove-Item -Path $File.FullName
+            $FolderSpaceFreed += $FileSize
+            $FilesRemoved ++
+            
+            if((Test-Path -Path $File.FullName) -eq $true) {
+                $Message = "Failed to delete " + $File.Name + " file"
+                Write-Log -Message $Message
+            }
+            else{
+                $Message = "Successfully deleted " + $File.Name + " file - removed " + $SpaceFreed
+                Write-Log -Message $Message
+            }
+        }
+        New-Object -TypeName psobject -Property @{
+            FolderSpaceFreed =  $FolderSpaceFreed
+            FilesRemoved = $FilesRemoved
+		}
     }
 }
