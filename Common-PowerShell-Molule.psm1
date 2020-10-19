@@ -26,12 +26,7 @@ Author:         Zoran Jankov
 function Write-Log {
     [CmdletBinding()]
     param (
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName)]
-        [ValidateSet('Success', 'Fail', 'Partial', 'Info', 'None')]
-        [String]
-        $OperationResult = 'None',
-
-        [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String]
         $Message
     )
@@ -63,35 +58,8 @@ function Write-Log {
     process {
         $Timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
         $LogEntry = $Timestamp + " - " + $Message
-
-        switch ($OperationResult) {
-            "Success" {
-                $ForegroundColor = "Green"
-                break
-            }
-    
-            "Fail" {
-                $ForegroundColor = "Red"
-                break
-            }
-    
-            "Partial" {
-                $ForegroundColor = "Yellow"
-                break
-            }
-    
-            "Info" {
-                $ForegroundColor = "Cyan"
-                break
-            }
-    
-            "None" {
-                $ForegroundColor = "White"
-                $LogEntry = $Message
-            }
-        }
         
-        Write-Host $LogEntry -ForegroundColor $ForegroundColor -BackgroundColor Black
+        Write-Verbose $LogEntry -Verbose
     
         if ($WriteLog) {
             Add-content -Path $LogFile -Value $LogEntry
@@ -191,7 +159,6 @@ function Start-FileTransfer {
 		    }
 		    catch {
                 $Message = "Failed to transfer " + $FileName + " file to " + $Destination + " folder `n" + $_.Exception
-                $OperationResult = 'Fail'
                 $failedTransfers ++
             }
 
@@ -199,10 +166,9 @@ function Start-FileTransfer {
 
             if(Test-Path -Path $TransferDestination) {
                 $Message = "Successfully transferred " + $FileName + " file to " + $TransferDestination + " folder"
-                $OperationResult = 'Success'
                 $successfulTransfers ++
             }
-            Write-Log -OperationResult $OperationResult -Message $Message
+            Write-Log -Message $Message
         }
         New-Object -TypeName psobject -Property @{
             Successful = $successfulTransfers
@@ -247,7 +213,7 @@ function New-Folder {
 		if (-not $Cancel) {
 			if ((Test-Path $Path) -eq $true) {
 				$Message = "Successfully accessed " + $Path + " folder"
-				$OperationResult  = 'Success'
+				$Cancel = $false
 			}
 			else {
 				try {
@@ -255,28 +221,21 @@ function New-Folder {
 				}
 				catch {
 					$Message = "Failed to create " + $Path + " folder `n" + $_.Exception
-					$OperationResult  = 'Fail'
+					$Cancel = $true
 				}
 
 				if ((Test-Path $Path) -eq $true) {
 					$Message = "Successfully created " + $Path + " folder"
-					$OperationResult  = 'Success'
+					$Cancel = $false
 				}
 			}
 		}
 		else {
 			$Message = "Canceled " + $Path + " folder deployment"
-			$OperationResult  = 'Success'
-		}
-
-		Write-Log -OperationResult $OperationResult -Message $Message
-
-		if ($OperationResult -ne 'Fail') {
 			$Cancel = $false
 		}
-		else {
-			$Cancel = $true
-		}
+
+		Write-Log -Message $Message
 		
 		New-Object -TypeName psobject -Property @{
 			Cancel = $Cancel
@@ -527,13 +486,11 @@ function New-FilePermissionGroups {
 							-GroupScope Global `
                             -Description $FolderPath
                 $Message = "Successfully created " + $Name + " AD group"
-                $OperationResult = 'Success'
             }
             catch {
                 $Message = "Failed to create " + $Name + " AD group `n" + $_.Exception
-                $OperationResult = 'Fail'
             }
-            Write-Log -OperationResult $OperationResult -Message $Message
+            Write-Log -Message $Message
         }
     }
 }

@@ -102,7 +102,7 @@ function Set-AzureADUserInfo {
         if ($OldValue.JobTitle -ne $NewValue.JobTitle) {
             $AzureADUser | Set-AzureADUser -JobTitle $NewValue.JobTitle
             $Message = "JobTitle for user " + $AzureADUser.UserPrincipalName + " changed from < " + $OldValue.JobTitle + " > to < " + $NewValue.JobTitle + " >"
-            Write-Log -OperationResult Info -Message $Message
+            Write-Log -Message $Message
         }
 
         $OldValue = $AzureADUser | Select-Object -Property 'Department'
@@ -110,7 +110,7 @@ function Set-AzureADUserInfo {
         if ($OldValue.Department -ne $NewValue.Department) {
             $AzureADUser | Set-AzureADUser -Department $NewValue.Department
             $Message = "Department for user " + $AzureADUser.UserPrincipalName + " changed from < " + $OldValue.Department + " > to < " + $NewValue.Department + " >"
-            Write-Log -OperationResult Info -Message $Message
+            Write-Log -Message $Message
         }
 
         $OldValue = $AzureADUser | Select-Object -Property 'StreetAddress'
@@ -118,7 +118,7 @@ function Set-AzureADUserInfo {
         if ($OldValue.StreetAddress -ne $NewValue.StreetAddress) {
             $AzureADUser | Set-AzureADUser -StreetAddress $NewValue.StreetAddress
             $Message = "StreetAddress for user " + $AzureADUser.UserPrincipalName + " changed from < " + $OldValue.StreetAddress + " > to < " + $NewValue.StreetAddress + " >"
-            Write-Log -OperationResult Info -Message $Message
+            Write-Log -Message $Message
         }
 
         $OldValue = $AzureADUser | Select-Object -Property 'City'
@@ -126,7 +126,7 @@ function Set-AzureADUserInfo {
         if ($OldValue.City -ne $NewValue.City) {
             $AzureADUser | Set-AzureADUser -City $NewValue.City
             $Message = "City for user " + $AzureADUser.UserPrincipalName + " changed from < " + $OldValue.City + " > to < " + $NewValue.City + " >"
-            Write-Log -OperationResult Info -Message $Message
+            Write-Log -Message $Message
         }
 
         $OldValue = $AzureADUser | Select-Object -Property 'PostalCode'
@@ -134,7 +134,7 @@ function Set-AzureADUserInfo {
         if ($OldValue.PostalCode -ne $NewValue.PostalCode) {
             $AzureADUser | Set-AzureADUser -PostalCode $NewValue.PostalCode
             $Message = "PostalCode for user " + $AzureADUser.UserPrincipalName + " changed from < " + $OldValue.PostalCode + " > to < " + $NewValue.PostalCode + " >"
-            Write-Log -OperationResult Info -Message $Message
+            Write-Log -Message $Message
         }
 
         $AzureADUser | Set-AzureADUser -Country 'Srbija'
