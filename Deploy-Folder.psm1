@@ -18,7 +18,7 @@ Deploy-Folder -Path "D:\Folder\Folder"
 .EXAMPLE
 $PathList | Deploy-Folder
 #>
-function New-Folder {
+function Deploy-Folder {
 	param (
 		[Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
 		[String]
@@ -59,7 +59,7 @@ function New-Folder {
 			$OperationResult  = 'Success'
 		}
 
-		Write-EventLog  -Message $Message -LogName "Log.log" -EntryType -Source "New-Folder function"
+		Write-Log -OperationResult $OperationResult -Message $Message
 
 		if ($OperationResult -ne 'Fail') {
 			$Cancel = $false
