@@ -48,9 +48,9 @@ function Compare-AzureADUserInfo {
             $UserAttributeValue = $Employee | Select-Object -Property $UserAttribute
 
             if ($AzureADUserAttributeValue.$UserAttribute -ne $UserAttributeValue.$UserAttribute) {
-                Write-Host -ForegroundColor Green -Object $UserAttribute
-                Write-Host -ForegroundColor Yellow -Object ("Old value: " + $AzureADUserAttributeValue.$UserAttribute)
-                Write-Host -ForegroundColor Cyan -Object ("New value: " + $UserAttributeValue.$UserAttribute + "`n")
+                Write-Verbose -Message $UserAttribute -Verbose
+                Write-Verbose -Message ("Old value: " + $AzureADUserAttributeValue.$UserAttribute) -Verbose
+                Write-Verbose -Message ("New value: " + $UserAttributeValue.$UserAttribute + "`n") -Verbose
                 $Changes = $true
             }
         }
