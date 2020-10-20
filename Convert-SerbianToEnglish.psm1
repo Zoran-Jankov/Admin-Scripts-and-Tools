@@ -21,7 +21,7 @@ function Convert-SerbianToEnglish {
         [string]
         $String
     )
-    
+
     process {
         $String.Replace('č', 'c').
                 Replace('ć', 'c').

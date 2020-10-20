@@ -37,7 +37,6 @@ function Compare-AzureADUserInfo {
         'City',
         'PostalCode'
         )
-
         $Changes = $false
     }
 
@@ -55,7 +54,7 @@ function Compare-AzureADUserInfo {
             }
         }
     }
-    
+
     end {
         return $Changes
     }

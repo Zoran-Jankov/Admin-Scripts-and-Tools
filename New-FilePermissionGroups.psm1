@@ -21,7 +21,7 @@ An example
 General notes
 #>
 function New-FilePermissionGroups {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $true)]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipelineByPropertyName)]
         [string]
@@ -35,7 +35,7 @@ function New-FilePermissionGroups {
         [Object[]]
         $Configuration = "NOT DEFINED"
     )
-    
+
     begin {
         if ($Configuration -eq "NOT DEFINED") {
             $Configuration = Get-Content -Path "Configuration.cfg"

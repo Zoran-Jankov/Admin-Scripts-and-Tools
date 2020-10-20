@@ -29,10 +29,6 @@ function Set-AzureADUserInfo {
         $Employee
     )
 
-    begin {
-        Import-Module '.\Common-PowerShell-Molule.psm1'
-    }
-
     process {
         $OldValue = $AzureADUser | Select-Object -Property 'JobTitle'
         $NewValue = $Employee | Select-Object -Property 'JobTitle'
@@ -73,7 +69,6 @@ function Set-AzureADUserInfo {
             $Message = "PostalCode for user " + $AzureADUser.UserPrincipalName + " changed from < " + $OldValue.PostalCode + " > to < " + $NewValue.PostalCode + " >"
             Write-Log -Message $Message
         }
-
         $AzureADUser | Set-AzureADUser -Country 'Srbija'
     }
 }

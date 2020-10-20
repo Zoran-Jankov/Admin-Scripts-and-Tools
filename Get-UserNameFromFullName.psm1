@@ -42,9 +42,7 @@ function Get-UserNameFromFullName {
 
     process {
         $UserNameComponents = $FullName.Trim().ToLower().Split(" ")
-
         $UserName = '{0}.{1}' -f $UserNameComponents[$Front], $UserNameComponents[$End]
-
         Convert-SerbianToEnglish -String $UserName
     }
 }

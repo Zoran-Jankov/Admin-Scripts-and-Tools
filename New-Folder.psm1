@@ -19,7 +19,7 @@ Deploy-Folder -Path "D:\Folder\Folder"
 $PathList | Deploy-Folder
 #>
 function New-Folder {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $true)]
 	param (
 		[Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
 		[string]
@@ -55,11 +55,9 @@ function New-Folder {
 			$Message = "Canceled " + $Path + " folder deployment"
 			$Cancel = $false
 		}
-
 		Write-Log -Message $Message
-		
 		New-Object -TypeName psobject -Property @{
-			Cancel = $Cancel
+		Cancel = $Cancel
 		}
 	}
 }
