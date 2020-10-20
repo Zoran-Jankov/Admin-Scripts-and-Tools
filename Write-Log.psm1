@@ -54,7 +54,7 @@ function Write-Log {
             New-Item -Path $ReportFile -ItemType File
         }
     }
-    
+
     process {
         $Timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
         $LogEntry = $Timestamp + " - " + $Message

@@ -34,7 +34,6 @@ function Send-EmailReport {
     process {
         if ($Configuration.SendReport -eq 'true') {
             $Body = $Configuration.Body + "`n" + $FinalMessage
-    
             Send-MailMessage -SmtpServer $Configuration.SmtpServer `
                              -Port $Configuration.Port `
                              -To $Configuration.To `
@@ -42,7 +41,6 @@ function Send-EmailReport {
                              -Subject $Configuration.Subject `
                              -Body $Body `
                              -Attachments $Configuration.ReportFile
-    
             Remove-Item -Path $Configuration.ReportFile
         }
     }

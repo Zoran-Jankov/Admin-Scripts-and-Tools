@@ -18,7 +18,7 @@ An example
 General notes
 #>
 function Set-AzureADUserInfo {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $true)]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [Microsoft.Open.AzureAD.Model.DirectoryObject]

@@ -30,7 +30,7 @@ function Start-FileTransfer {
 	    foreach($file in $FileList) {
 		    #File name extraction from file full path
 		    $FileName = Split-Path $file -leaf
-		
+
 		    try {
 			    Copy-Item -Path $file -Destination $Destination -Force
 		    }

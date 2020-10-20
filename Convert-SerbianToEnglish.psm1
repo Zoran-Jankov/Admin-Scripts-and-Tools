@@ -33,5 +33,6 @@ function Convert-SerbianToEnglish {
                 Replace('Đ', 'Dj').
                 Replace('Š', 'S').
                 Replace('Ž', 'Z')
+        return $String
     }
 }
