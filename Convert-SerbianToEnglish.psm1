@@ -1,15 +1,19 @@
 <#
 .SYNOPSIS
-Short description
+Replaces all Serbian alphabet characters from a string with English alphabet characters.
 
 .DESCRIPTION
-Long description
+This function takes a string written in Serbian language and returns a string with all Serbian alphabet characters replaced
+with English alphabet characters.
 
 .PARAMETER String
-Parameter description
+A string to be converted
 
 .EXAMPLE
-An example
+Convert-SerbianToEnglish -String "Škola Vuk Stefanović Karadžić"
+
+.EXAMPLE
+"Škola Vuk Stefanović Karadžić" | Convert-SerbianToEnglish
 
 .NOTES
 General notes
