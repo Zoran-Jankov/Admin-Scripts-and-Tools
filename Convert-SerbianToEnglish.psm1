@@ -16,12 +16,13 @@ General notes
 #>
 function Convert-SerbianToEnglish {
     [CmdletBinding()]
+    [OutputType([string])]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
         $String
     )
-
+    
     process {
         $String.Replace('č', 'c').
                 Replace('ć', 'c').

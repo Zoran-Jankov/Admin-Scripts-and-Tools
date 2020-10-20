@@ -16,6 +16,7 @@ General notes
 #>
 function Get-FormattedFileSize {
     [CmdletBinding()]
+    [OutputType([string])]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [long]

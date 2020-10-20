@@ -45,11 +45,9 @@ function Write-Log {
             $WriteLog   = $true
             $SendReport = $true
         }
-
         if (-not (Test-Path -Path $LogFile)) {
             New-Item -Path $LogFile -ItemType File
         }
-
         if (-not (Test-Path -Path $ReportFile)) {
             New-Item -Path $ReportFile -ItemType File
         }
@@ -58,13 +56,10 @@ function Write-Log {
     process {
         $Timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
         $LogEntry = $Timestamp + " - " + $Message
-        
         Write-Verbose $LogEntry -Verbose
-    
         if ($WriteLog) {
             Add-content -Path $LogFile -Value $LogEntry
         }
-    
         if ($SendReport) {
             Add-content -Path $ReportFile -Value $LogEntry
         }
