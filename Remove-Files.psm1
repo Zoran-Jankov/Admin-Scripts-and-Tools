@@ -22,11 +22,11 @@ function Remove-Files {
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
-        $Path,
+        $FolderPath,
 
         [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [Object[]]
-        $FileList,
+        [string]
+        $FileName,
 
         [Parameter(Position = 2, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [int]
@@ -43,11 +43,14 @@ function Remove-Files {
         [long] $FolderSpaceFreed = 0
         [short] $FilesRemoved = 0
 
+        $FullPath = Join-Path -Path $FolderPath -ChildPath $FileName
+        $FileList = Get-ChildItem -Path $FullPath
+
         foreach($File in $FileList) {
             $FileSize  = (Get-Item -Path $File.FullName).Length
             $SpaceFreed = Get-FormattedFileSize -Size $FileSize
             if ($OlderThen -gt 0) {
-                Get-Item -Path $File.FullName | Where-Object {$_.LastWriteTime -lt $DatetoDelete}| Remove-Item
+                Get-Item -Path $File.FullName | Where-Object {$_.LastWriteTime -lt $DatetoDelete} | Remove-Item 
             }
             else {
                 Remove-Item -Path $File.FullName
@@ -62,6 +65,20 @@ function Remove-Files {
             else {
                 $Message = "Successfully deleted " + $File.Name + " file - removed " + $SpaceFreed
             }
+            
+            if($null -eq $Message) {
+                $Message = "No file was found for delition"
+            }
+            Write-Log -Message $Message
+        }
+
+        $SpaceFree = Get-FormattedFileSize -Size $FolderSpaceFreed
+
+        if($FilesRemoved -eq 0) {
+            $Message = "Successfully deleted " + $FilesRemoved + " files in " + $FolderPath + " folder, and " + $SpaceFree + " of space was freed"
+        }
+        else {
+            $Message = "No files for delition were found in " + $FolderPath + " folder"
         }
         Write-Log -Message $Message
         New-Object -TypeName psobject -Property @{
