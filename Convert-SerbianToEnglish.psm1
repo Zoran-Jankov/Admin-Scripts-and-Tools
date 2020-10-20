@@ -16,7 +16,7 @@ General notes
 #>
 function Convert-SerbianToEnglish {
     [CmdletBinding()]
-    [OutputType([string])]
+    [OutputType([String])]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
