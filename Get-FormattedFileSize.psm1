@@ -1,15 +1,18 @@
 <#
 .SYNOPSIS
-Short description
+Returns string value from long integer value representing bytes in [12.45 MB] format.
 
 .DESCRIPTION
-Long description
+The function takes in a long integer value representing bytes, and Returns string value in [12.45 MB] format.
 
 .PARAMETER Size
-Parameter description
+Long integer representing bytes
 
 .EXAMPLE
-An example
+Get-FormattedFileSize "1234567890"
+
+.EXAMPLE
+"1234567890" | Get-FormattedFileSize
 
 .NOTES
 General notes
