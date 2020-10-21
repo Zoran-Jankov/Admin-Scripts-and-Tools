@@ -42,6 +42,7 @@ function Remove-Files {
     process {
         [long] $FolderSpaceFreed = 0
         [short] $FilesRemoved = 0
+        [short] $FailedRemovals = 0
 
         $FullPath = Join-Path -Path $FolderPath -ChildPath $FileName
         $FileList = Get-ChildItem -Path $FullPath
@@ -50,26 +51,23 @@ function Remove-Files {
             $FileSize  = (Get-Item -Path $File.FullName).Length
             $SpaceFreed = Get-FormattedFileSize -Size $FileSize
             if ($OlderThen -gt 0) {
-                Get-Item -Path $File.FullName | Where-Object {$_.LastWriteTime -lt $DatetoDelete} | Remove-Item 
+                Get-Item -Path $File.FullName | Where-Object {$_.LastWriteTime -lt $DatetoDelete} | Remove-Item
             }
             else {
                 Remove-Item -Path $File.FullName
             }
             
-            $FolderSpaceFreed += $FileSize
-            $FilesRemoved ++
+            
 
             if((Test-Path -Path $File.FullName) -eq $true) {
                 $Message = "Failed to delete " + $File.Name + " file"
+                $FailedRemovals ++
             }
             else {
                 $Message = "Successfully deleted " + $File.Name + " file - removed " + $SpaceFreed
+                $FolderSpaceFreed += $FileSize
+                $FilesRemoved ++
             }
-            
-            if($null -eq $Message) {
-                $Message = "No file was found for delition"
-            }
-            Write-Log -Message $Message
         }
 
         $SpaceFree = Get-FormattedFileSize -Size $FolderSpaceFreed
@@ -84,6 +82,7 @@ function Remove-Files {
         New-Object -TypeName psobject -Property @{
             FolderSpaceFreed =  $FolderSpaceFreed
             FilesRemoved = $FilesRemoved
+            FailedRemovals = $FailedRemovals
 		}
     }
 }
