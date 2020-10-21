@@ -15,7 +15,8 @@ Parameter description
 An example
 
 .NOTES
-General notes
+Version:        1.1
+Author:         Zoran Jankov
 #>
 function Remove-Files {
     [CmdletBinding(SupportsShouldProcess = $true)]
@@ -56,9 +57,6 @@ function Remove-Files {
             else {
                 Remove-Item -Path $File.FullName
             }
-            
-            
-
             if((Test-Path -Path $File.FullName) -eq $true) {
                 $Message = "Failed to delete " + $File.Name + " file"
                 $FailedRemovals ++

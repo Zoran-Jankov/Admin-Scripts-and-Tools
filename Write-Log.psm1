@@ -34,16 +34,18 @@ function Write-Log {
     begin {
         if (Test-Path -Path '.\Configuration.cfg') {
             $Configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
-            $LogFile    = $Configuration.LogFile
-            $ReportFile = $Configuration.ReportFile
-            $WriteLog   = $Configuration.WriteLog -eq "true"
-            $SendReport = $Configuration.SendReport -eq "false"
+            $LogFile         = $Configuration.LogFile
+            $ReportFile      = $Configuration.ReportFile
+            $WriteTranscript = $Configuration.WriteTranscript -eq "true"
+            $WriteLog        = $Configuration.WriteLog -eq "true"
+            $SendReport      = $Configuration.SendReport -eq "true"
         }
         else {
-            $LogFile    = '.\Log.log'
-            $ReportFile = '.\Report.log'
-            $WriteLog   = $true
-            $SendReport = $true
+            $LogFile         = '.\Log.log'
+            $ReportFile      = '.\Report.log'
+            $WriteTranscript = $true
+            $WriteLog        = $true
+            $SendReport      = $true
         }
         if (-not (Test-Path -Path $LogFile)) {
             New-Item -Path $LogFile -ItemType File
@@ -56,7 +58,9 @@ function Write-Log {
     process {
         $Timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
         $LogEntry = $Timestamp + " - " + $Message
-        Write-Verbose $LogEntry -Verbose
+        if ($WriteTranscript) {
+            Write-Verbose $LogEntry -Verbose
+        }
         if ($WriteLog) {
             Add-content -Path $LogFile -Value $LogEntry
         }
