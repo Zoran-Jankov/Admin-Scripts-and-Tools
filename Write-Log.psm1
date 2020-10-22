@@ -20,7 +20,7 @@ Parameter description
 An example
 
 .NOTES
-Version:        1.6
+Version:        1.7
 Author:         Zoran Jankov
 #>
 function Write-Log {
@@ -33,12 +33,13 @@ function Write-Log {
 
     begin {
         if (Test-Path -Path '.\Settings.cfg') {
-            $Configuration = Get-Content '.\Settings.cfg' | ConvertFrom-StringData
-            $LogFile         = $Configuration.LogFile
-            $ReportFile      = $Configuration.ReportFile
-            $WriteTranscript = $Configuration.WriteTranscript -eq "true"
-            $WriteLog        = $Configuration.WriteLog -eq "true"
-            $SendReport      = $Configuration.SendReport -eq "true"
+            $Settings = Get-Content '.\Settings.cfg' | ConvertFrom-StringData
+
+            $LogFile         = $Settings.LogFile
+            $ReportFile      = $Settings.ReportFile
+            $WriteTranscript = $Settings.WriteTranscript -eq "true"
+            $WriteLog        = $Settings.WriteLog -eq "true"
+            $SendReport      = $Settings.SendReport -eq "true"
         }
         else {
             $LogFile         = '.\Log.log'
