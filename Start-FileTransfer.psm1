@@ -24,32 +24,32 @@ function Start-FileTransfer {
     )
 
     process {
-        $successfulTransfers = 0
-        $failedTransfers = 0
+        $SuccessfulTransfers = 0
+        $FailedTransfers = 0
 
-	    foreach($file in $FileList) {
+	    foreach($File in $FileList) {
 		    #File name extraction from file full path
-		    $FileName = Split-Path $file -leaf
+		    $FileName = Split-Path $File -leaf
 
 		    try {
-			    Copy-Item -Path $file -Destination $Destination -Force
+			    Copy-Item -Path $File -Destination $Destination -Force
 		    }
 		    catch {
                 $Message = "Failed to transfer " + $FileName + " file to " + $Destination + " folder `n" + $_.Exception
-                $failedTransfers ++
+                $FailedTransfers ++
             }
 
             $TransferDestination = Join-Path -Path $Destination -ChildPath $FileName
 
             if(Test-Path -Path $TransferDestination) {
                 $Message = "Successfully transferred " + $FileName + " file to " + $TransferDestination + " folder"
-                $successfulTransfers ++
+                $SuccessfulTransfers ++
             }
             Write-Log -Message $Message
         }
         New-Object -TypeName psobject -Property @{
-            Successful = $successfulTransfers
-            Failed = $failedTransfers
+            Successful = $SuccessfulTransfers
+            Failed = $FailedTransfers
         }
     }
 }
