@@ -6,8 +6,8 @@ Writes a log entry to console, log file and report file.
 Creates a log entry with timestamp and message passed thru a parameter Message or thru pipeline, and saves the log entry to log
 file, to report log file, and writes the same entry to console. In Configuration.cfg file paths to report log and permanent log
 file are contained, and option to turn on or off whether a report log and permanent log should be written. If Configuration.cfg
-file is absent it loads the default values. Depending on the OperationResult parameter, log entry can be written with or without
-a timestamp. Format of the timestamp is "yyyy.MM.dd. HH:mm:ss:fff", and this function adds " - " after timestamp and before the
+file is absent it loads the default values. Depending on the NoTimestamp parameter, log entry can be written with or without a
+timestamp. Format of the timestamp is "yyyy.MM.dd. HH:mm:ss:fff", and this function adds " - " after timestamp and before the
 main message.
 
 .PARAMETER OperationResult
@@ -16,33 +16,26 @@ Parameter description
 .PARAMETER Message
 Parameter description
 
-.PARAMETER LogSeparator
-Parameter description
-
-.PARAMETER LogTitle
+.PARAMETER NoTimestamp
 Parameter description
 
 .EXAMPLE
 An example
 
 .NOTES
-Version:        1.8
+Version:        1.9
 Author:         Zoran Jankov
 #>
 function Write-Log {
     [CmdletBinding()]
     param (
-        [Parameter(Position = 0, Mandatory = $false, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
-        $Message = "ERROR - No log entry passed",
+        $Message,
 
         [Parameter(Mandatory = $false)]
         [switch]
-        $LogSeparator = $false,
-
-        [Parameter(Mandatory = $false)]
-        [switch]
-        $LogTitle = $false
+        $NoTimestamp = $false
     )
 
     begin {
@@ -71,22 +64,16 @@ function Write-Log {
     }
 
     process {
-        if (-not($LogSeparator -or $LogTitle)) {
+        if (-not($NoTimestamp)) {
             $Timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
             $LogEntry = $Timestamp + " - " + $Message
         }
-        elseif ($LogSeparator -and (-not $LogTitle)) {
-            $LogEntry = $Settings.LogSeparator
-        }
-        elseif ((-not $LogSeparator) -and $LogTitle) {
-            $LogEntry = $Settings.LogTitle
-        }
         else {
-            $LogEntry = "ERROR - Wrong log entry"
+            $LogEntry = $Message
         }
 
         if ($WriteTranscript) {
-            Write-Output $LogEntry -Verbose
+            Write-Verbose $LogEntry -Verbose
         }
         if ($WriteLog) {
             Add-content -Path $LogFile -Value $LogEntry
