@@ -20,15 +20,23 @@ Parameter description
 An example
 
 .NOTES
-Version:        1.7
+Version:        1.8
 Author:         Zoran Jankov
 #>
 function Write-Log {
     [CmdletBinding()]
     param (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Position = 0, Mandatory = $false, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
-        $Message
+        $Message = "ERROR - No log entry passed",
+
+        [Parameter(Mandatory = $false)]
+        [switch]
+        $LogSeparator = $false,
+
+        [Parameter(Mandatory = $false)]
+        [switch]
+        $LogTitle = $false
     )
 
     begin {
@@ -57,8 +65,20 @@ function Write-Log {
     }
 
     process {
-        $Timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
-        $LogEntry = $Timestamp + " - " + $Message
+        if (-not($LogSeparator -or $LogTitle)) {
+            $Timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
+            $LogEntry = $Timestamp + " - " + $Message
+        }
+        elseif ($LogSeparator -and (-not $LogTitle)) {
+            $LogEntry = $Settings.LogSeparator
+        }
+        elseif ((-not $LogSeparator) -and $LogTitle) {
+            $LogEntry = $Settings.LogTitle
+        }
+        else {
+            $LogEntry = "ERROR - Wrong log entry"
+        }
+
         if ($WriteTranscript) {
             Write-Output $LogEntry -Verbose
         }
