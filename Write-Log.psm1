@@ -20,7 +20,7 @@ Parameter description
 An example
 
 .NOTES
-Version:        1.5
+Version:        1.6
 Author:         Zoran Jankov
 #>
 function Write-Log {
@@ -32,8 +32,8 @@ function Write-Log {
     )
 
     begin {
-        if (Test-Path -Path '.\Configuration.cfg') {
-            $Configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
+        if (Test-Path -Path '.\Settings.cfg') {
+            $Configuration = Get-Content '.\Settings.cfg' | ConvertFrom-StringData
             $LogFile         = $Configuration.LogFile
             $ReportFile      = $Configuration.ReportFile
             $WriteTranscript = $Configuration.WriteTranscript -eq "true"
@@ -50,7 +50,7 @@ function Write-Log {
         if (-not (Test-Path -Path $LogFile)) {
             New-Item -Path $LogFile -ItemType File
         }
-        if (-not (Test-Path -Path $ReportFile)) {
+        if ((-not (Test-Path -Path $ReportFile)) -and $SendReport) {
             New-Item -Path $ReportFile -ItemType File
         }
     }
@@ -59,7 +59,7 @@ function Write-Log {
         $Timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
         $LogEntry = $Timestamp + " - " + $Message
         if ($WriteTranscript) {
-            Write-Verbose $LogEntry -Verbose
+            Write-Output $LogEntry -Verbose
         }
         if ($WriteLog) {
             Add-content -Path $LogFile -Value $LogEntry

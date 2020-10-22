@@ -15,7 +15,8 @@ Get-FormattedFileSize "1234567890"
 "1234567890" | Get-FormattedFileSize
 
 .NOTES
-General notes
+Version:        1.2
+Author:         Zoran Jankov
 #>
 function Get-FormattedFileSize {
     [CmdletBinding()]
@@ -39,7 +40,7 @@ function Get-FormattedFileSize {
         $StringValue = [string]::Format('{0:0.00} kB', $Size / 1KB)
     }
     else {
-        $StringValue = [string]::Format('{0:0.00} B', $Size)
+        $StringValue = [string]::Format('{0:0} B', $Size)
     }
     return $StringValue
 }

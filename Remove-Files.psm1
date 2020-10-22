@@ -15,7 +15,7 @@ Parameter description
 An example
 
 .NOTES
-Version:        1.1
+Version:        1.2
 Author:         Zoran Jankov
 #>
 function Remove-Files {
@@ -36,28 +36,25 @@ function Remove-Files {
 
     begin {
         if ($OlderThen -gt 0) {
-            $DatetoDelete = (Get-Date).AddDays(- $OlderThen)
+            $DateToDelete = (Get-Date).AddDays(- $OlderThen)
         }
     }
 
     process {
-        [long] $FolderSpaceFreed = 0
-        [short] $FilesRemoved = 0
-        [short] $FailedRemovals = 0
+        $FolderSpaceFreed = 0
+        $FilesRemoved = 0
+        $FailedRemovals = 0
 
         $FullPath = Join-Path -Path $FolderPath -ChildPath $FileName
-        $FileList = Get-ChildItem -Path $FullPath
+        $FileList = Get-ChildItem -Path $FullPath | Where-Object {$_.LastWriteTime -lt $DateToDelete}
 
-        foreach($File in $FileList) {
+        foreach ($File in $FileList) {
             $FileSize  = (Get-Item -Path $File.FullName).Length
             $SpaceFreed = Get-FormattedFileSize -Size $FileSize
-            if ($OlderThen -gt 0) {
-                Get-Item -Path $File.FullName | Where-Object {$_.LastWriteTime -lt $DatetoDelete} | Remove-Item
-            }
-            else {
-                Remove-Item -Path $File.FullName
-            }
-            if((Test-Path -Path $File.FullName) -eq $true) {
+
+            Get-Item -Path $File.FullName | Remove-Item
+
+            if ((Test-Path -Path $File.FullName) -eq $true) {
                 $Message = "Failed to delete " + $File.Name + " file"
                 $FailedRemovals ++
             }
@@ -66,16 +63,21 @@ function Remove-Files {
                 $FolderSpaceFreed += $FileSize
                 $FilesRemoved ++
             }
+            Write-Log -Message $Message
         }
 
         $SpaceFree = Get-FormattedFileSize -Size $FolderSpaceFreed
 
-        if($FilesRemoved -eq 0) {
+        if ($FilesRemoved -gt 0) {
             $Message = "Successfully deleted " + $FilesRemoved + " files in " + $FolderPath + " folder, and " + $SpaceFree + " of space was freed"
         }
-        else {
+        if ($FailedRemovals -gt 0) {
+            $Message = "Failed to delete " + $FilesRemoved + " files in " + $FolderPath + " folder"
+        }
+        if ($FilesRemoved -eq 0 -and $FailedRemovals -eq 0) {
             $Message = "No files for delition were found in " + $FolderPath + " folder"
         }
+
         Write-Log -Message $Message
         New-Object -TypeName psobject -Property @{
             FolderSpaceFreed =  $FolderSpaceFreed
