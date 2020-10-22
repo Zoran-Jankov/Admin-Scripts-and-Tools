@@ -16,6 +16,12 @@ Parameter description
 .PARAMETER Message
 Parameter description
 
+.PARAMETER LogSeparator
+Parameter description
+
+.PARAMETER LogTitle
+Parameter description
+
 .EXAMPLE
 An example
 
