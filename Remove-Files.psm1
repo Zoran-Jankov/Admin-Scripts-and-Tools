@@ -15,7 +15,7 @@ Parameter description
 An example
 
 .NOTES
-Version:        1.2
+Version:        1.3
 Author:         Zoran Jankov
 #>
 function Remove-Files {
@@ -35,9 +35,7 @@ function Remove-Files {
     )
 
     begin {
-        if ($OlderThen -gt 0) {
-            $DateToDelete = (Get-Date).AddDays(- $OlderThen)
-        }
+        $DateToDelete = (Get-Date).AddDays(- $OlderThen)
     }
 
     process {
@@ -66,10 +64,10 @@ function Remove-Files {
             Write-Log -Message $Message
         }
 
-        $SpaceFree = Get-FormattedFileSize -Size $FolderSpaceFreed
+        $SpaceFreed = Get-FormattedFileSize -Size $FolderSpaceFreed
 
         if ($FilesRemoved -gt 0) {
-            $Message = "Successfully deleted " + $FilesRemoved + " files in " + $FolderPath + " folder, and " + $SpaceFree + " of space was freed"
+            $Message = "Successfully deleted " + $FilesRemoved + " files in " + $FolderPath + " folder, and " + $SpaceFreed + " of space was freed"
         }
         if ($FailedRemovals -gt 0) {
             $Message = "Failed to delete " + $FilesRemoved + " files in " + $FolderPath + " folder"
