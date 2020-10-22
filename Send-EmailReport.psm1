@@ -3,11 +3,8 @@
 Sends a Report.log file to defined email address
 
 .DESCRIPTION
-This function sends a report log file as an attachment to defined email address. In configuration hashtable parameter email
+This function sends a report log file, Report.log, as an attachment to defined email address.
 settings are defined.
-
-.PARAMETER configuration
-A hashtable that contains information about report log file location, mail settings and weather report should be sent at all.
 
 .PARAMETER FinalMessage
 Additional variable information to be sent in the mail body.
@@ -16,7 +13,7 @@ Additional variable information to be sent in the mail body.
 Send-Report -FinalMessage "Successful script execution"
 
 .NOTES
-Version:        1.4
+Version:        1.6
 Author:         Zoran Jankov
 #>
 function Send-EmailReport {
@@ -28,20 +25,20 @@ function Send-EmailReport {
     )
 
     begin {
-        $Configuration = Get-Content '.\Configuration.cfg' | ConvertFrom-StringData
+        $Settings = Get-Content '.\Settings.cfg' | ConvertFrom-StringData
     }
 
     process {
-        if ($Configuration.SendReport -eq 'true') {
-            $Body = $Configuration.Body + "`n" + $FinalMessage
-            Send-MailMessage -SmtpServer $Configuration.SmtpServer `
-                             -Port $Configuration.Port `
-                             -To $Configuration.To `
-                             -From $Configuration.From `
-                             -Subject $Configuration.Subject `
+        if ($Settings.SendReport -eq 'true') {
+            $Body = $Settings.Body + "`n" + $FinalMessage
+            Send-MailMessage -SmtpServer $Settings.SmtpServer `
+                             -Port $Settings.Port `
+                             -To $Settings.To `
+                             -From $Settings.From `
+                             -Subject $Settings.Subject `
                              -Body $Body `
-                             -Attachments $Configuration.ReportFile
-            Remove-Item -Path $Configuration.ReportFile
+                             -Attachments $Settings.ReportFile
+            Remove-Item -Path $Settings.ReportFile
         }
     }
 }
