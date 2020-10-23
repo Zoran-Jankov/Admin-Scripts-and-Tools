@@ -68,15 +68,17 @@ function Remove-Files {
 
         if ($FilesRemoved -gt 0) {
             $Message = "Successfully deleted " + $FilesRemoved + " files in " + $FolderPath + " folder, and " + $SpaceFreed + " of space was freed"
+            Write-Log -Message $Message
         }
         if ($FailedRemovals -gt 0) {
-            $Message = "Failed to delete " + $FilesRemoved + " files in " + $FolderPath + " folder"
+            $Message = "Failed to delete " + $FailedRemovals + " files in " + $FolderPath + " folder"
+            Write-Log -Message $Message
         }
         if ($FilesRemoved -eq 0 -and $FailedRemovals -eq 0) {
             $Message = "No files for delition were found in " + $FolderPath + " folder"
+            Write-Log -Message $Message
         }
-
-        Write-Log -Message $Message
+        
         New-Object -TypeName psobject -Property @{
             FolderSpaceFreed =  $FolderSpaceFreed
             FilesRemoved = $FilesRemoved
