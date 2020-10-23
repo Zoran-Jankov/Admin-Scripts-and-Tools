@@ -19,6 +19,7 @@ General notes
 #>
 function Compare-AzureADUserInfo {
     [CmdletBinding()]
+    [OutputType([bool])]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [Microsoft.Open.AzureAD.Model.DirectoryObject]
@@ -37,25 +38,23 @@ function Compare-AzureADUserInfo {
         'City',
         'PostalCode'
         )
-        $Changes = $false
+        $Differences = $false
     }
 
     process {
         foreach ($UserAttribute in $UserAttributes) {
-
             $AzureADUserAttributeValue = $AzureADUser | Select-Object -Property $UserAttribute
             $UserAttributeValue = $Employee | Select-Object -Property $UserAttribute
-
             if ($AzureADUserAttributeValue.$UserAttribute -ne $UserAttributeValue.$UserAttribute) {
                 Write-Verbose -Message $UserAttribute -Verbose
                 Write-Verbose -Message ("Old value: " + $AzureADUserAttributeValue.$UserAttribute) -Verbose
                 Write-Verbose -Message ("New value: " + $UserAttributeValue.$UserAttribute + "`n") -Verbose
-                $Changes = $true
+                $Differences = $true
             }
         }
     }
 
     end {
-        return $Changes
+        return $Differences
     }
 }
