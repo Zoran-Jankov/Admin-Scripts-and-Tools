@@ -16,7 +16,8 @@ Convert-SerbianToEnglish -String "Škola Vuk Stefanović Karadžić"
 "Škola Vuk Stefanović Karadžić" | Convert-SerbianToEnglish
 
 .NOTES
-General notes
+Version:        1.2
+Author:         Zoran Jankov
 #>
 function Convert-SerbianToEnglish {
     [CmdletBinding()]

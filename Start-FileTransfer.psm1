@@ -3,19 +3,24 @@
 Transfers files from defined list to remote computer.
 
 .DESCRIPTION
-Transfers files from ".\Files Paths.txt" list to remote computer. Log errors while file transfering.
+Transfers files from the list to destination folder. Log errors actions while file transfering.
 
-.PARAMETER DestinationPath
+.PARAMETER FileList
+List od file full names fot transfer
+
+.PARAMETER Destination
 Full path to file transfer folder.
 
-.PARAMETER Computer
-Name of the remote computer to which files are being transferred.
+.NOTES
+Version:        1.2
+Author:         Zoran Jankov
 #>
 function Start-FileTransfer {
     [CmdletBinding(SupportsShouldProcess = $true)]
+    [OutputType([PSCustomObject])]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipelineByPropertyName)]
-        [Object[]]
+        [System.Object[]]
         $FileList,
 
         [Parameter(Position = 1, Mandatory, ValueFromPipelineByPropertyName)]

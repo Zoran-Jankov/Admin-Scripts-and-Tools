@@ -26,7 +26,7 @@ function Compare-AzureADUserInfo {
         $AzureADUser,
 
         [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [Object[]]
+        [System.Object[]]
         $Employee
     )
 

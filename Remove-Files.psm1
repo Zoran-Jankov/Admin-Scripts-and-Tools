@@ -1,25 +1,33 @@
 <#
 .SYNOPSIS
-Short description
+Removes requested file/files in defined location with optional number of days to delete files older than that.
 
 .DESCRIPTION
-Long description
+Removes requested file/files defined in FileName parameter in location defined in FolderPath parameter. Optinaly it can be defined
+to delete only files that are older then the number of days defined in OlderThen parameter.
 
-.PARAMETER Path
-Parameter description
+.PARAMETER FolderPath
+Full folder path in which file/files are to be deleted
 
-.PARAMETER FileNames
-Parameter description
+.PARAMETER FileName
+File name that can include wildcard character
+
+.PARAMETER OlderThen
+Number of days to delete files older than that
 
 .EXAMPLE
-An example
+Remove-Files -FolderPath "D:\SomeFolder" -FileName "*.bak" -OlderThen 180
+
+.EXAMPLE
+Import-Csv -Path '.\Data.csv' --Delimiter ';' | Remove-Files 
 
 .NOTES
-Version:        1.3
+Version:        1.5
 Author:         Zoran Jankov
 #>
 function Remove-Files {
     [CmdletBinding(SupportsShouldProcess = $true)]
+    [OutputType([PSCustomObject])]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
@@ -52,14 +60,14 @@ function Remove-Files {
 
             Get-Item -Path $File.FullName | Remove-Item
 
-            if ((Test-Path -Path $File.FullName) -eq $true) {
-                $Message = "Failed to delete " + $File.Name + " file"
-                $FailedRemovals ++
-            }
-            else {
+            if ((Test-Path -Path $File.FullName) -eq $false) {
                 $Message = "Successfully deleted " + $File.Name + " file - removed " + $SpaceFreed
                 $FolderSpaceFreed += $FileSize
                 $FilesRemoved ++
+            }
+            else {
+                $Message = "Failed to delete " + $File.Name + " file"
+                $FailedRemovals ++
             }
             Write-Log -Message $Message
         }
@@ -78,7 +86,6 @@ function Remove-Files {
             $Message = "No files for delition were found in " + $FolderPath + " folder"
             Write-Log -Message $Message
         }
-        
         New-Object -TypeName psobject -Property @{
             FolderSpaceFreed =  $FolderSpaceFreed
             FilesRemoved = $FilesRemoved

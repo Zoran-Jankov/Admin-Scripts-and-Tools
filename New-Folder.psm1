@@ -17,6 +17,10 @@ Deploy-Folder -Path "D:\Folder\Folder"
 
 .EXAMPLE
 $PathList | Deploy-Folder
+
+.NOTES
+Version:        1.5
+Author:         Zoran Jankov
 #>
 function New-Folder {
     [CmdletBinding(SupportsShouldProcess = $true)]
@@ -26,7 +30,7 @@ function New-Folder {
 		$Path,
 
 		[Parameter(Position = 1, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-		[boolean]
+		[bool]
 		$Cancel = $false
 	)
 

@@ -9,7 +9,7 @@ The function takes in a long integer value representing bytes, and Returns strin
 Long integer representing bytes
 
 .EXAMPLE
-Get-FormattedFileSize "1234567890"
+Get-FormattedFileSize -Size "1234567890"
 
 .EXAMPLE
 "1234567890" | Get-FormattedFileSize
@@ -27,7 +27,7 @@ function Get-FormattedFileSize {
         $Size
     )
 
-    If ($Size -gt 1TB) {
+    if ($Size -gt 1TB) {
         $StringValue = [string]::Format('{0:0.00} TB', $Size / 1TB)
     }
     elseIf ($Size -gt 1GB) {

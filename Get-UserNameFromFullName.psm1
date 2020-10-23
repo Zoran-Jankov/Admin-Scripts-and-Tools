@@ -1,24 +1,30 @@
 <#
 .SYNOPSIS
-Short description
+Converts a full name to username in english alphabet
 
 .DESCRIPTION
-Long description
+Converts a full name to username in english alphabet in format "jon.dow". Optionaly first and last name positions can be reversed
+with ReverseNamePositions parameter.
 
 .PARAMETER FullName
-Parameter description
+User's full name
 
 .PARAMETER ReverseNamePositions
-Parameter description
+Optional switch to reverse first and last name positions
 
 .EXAMPLE
-An example
+Get-UserNameFromFullName -FullName "Jankov Zoran" -ReverseNamePositions
+
+.EXAMPLE
+"Jankov Zoran" | Get-UserNameFromFullName
 
 .NOTES
-General notes
+Version:        1.4
+Author:         Zoran Jankov
 #>
 function Get-UserNameFromFullName {
     [CmdletBinding()]
+    [OutputType([string])]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
@@ -44,5 +50,6 @@ function Get-UserNameFromFullName {
         $UserNameComponents = $FullName.Trim().ToLower().Split(" ")
         $UserName = '{0}.{1}' -f $UserNameComponents[$Front], $UserNameComponents[$End]
         Convert-SerbianToEnglish -String $UserName
+        return $UserName
     }
 }

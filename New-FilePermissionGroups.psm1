@@ -18,7 +18,8 @@ Parameter description
 An example
 
 .NOTES
-General notes
+Version:        1.1
+Author:         Zoran Jankov
 #>
 function New-FilePermissionGroups {
     [CmdletBinding(SupportsShouldProcess = $true)]
@@ -32,7 +33,7 @@ function New-FilePermissionGroups {
         $FolderPath,
 
         [Parameter(Position = 2, ValueFromPipelineByPropertyName)]
-        [Object[]]
+        [System.Object[]]
         $Configuration = "NOT DEFINED"
     )
 

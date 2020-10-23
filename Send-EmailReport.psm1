@@ -6,27 +6,33 @@ Sends a Report.log file to defined email address
 This function sends a report log file, Report.log, as an attachment to defined email address.
 settings are defined.
 
+.PARAMETER Settings
+Email settings
+
 .PARAMETER FinalMessage
-Additional variable information to be sent in the mail body.
+Additional variable information to be sent in the mail body
 
 .EXAMPLE
-Send-Report -FinalMessage "Successful script execution"
+Send-Report -Setting $Settings -FinalMessage "Successful script execution"
+
+.EXAMPLE
+$Settings | Send-Report
 
 .NOTES
-Version:        1.6
+Version:        1.7
 Author:         Zoran Jankov
 #>
 function Send-EmailReport {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [System.Object[]]
+        $Settings,
+
+        [Parameter(Position = 1, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [string]
         $FinalMessage
     )
-
-    begin {
-        $Settings = Get-Content '.\Settings.cfg' | ConvertFrom-StringData
-    }
 
     process {
         if ($Settings.SendReport -eq 'true') {
