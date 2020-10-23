@@ -10,17 +10,17 @@ file is absent it loads the default values. Depending on the NoTimestamp paramet
 timestamp. Format of the timestamp is "yyyy.MM.dd. HH:mm:ss:fff", and this function adds " - " after timestamp and before the
 main message.
 
-.PARAMETER OperationResult
-Parameter description
-
 .PARAMETER Message
-Parameter description
+A string message to be written as a log entry
 
 .PARAMETER NoTimestamp
-Parameter description
+A switch parameter if present timestamp is disabled in log entry
 
 .EXAMPLE
-An example
+Write-Log -Message "A log entry"
+
+.EXAMPLE
+Write-Log -Message "===========" - NoTimestamp
 
 .NOTES
 Version:        1.9
