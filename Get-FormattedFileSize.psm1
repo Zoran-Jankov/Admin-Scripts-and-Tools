@@ -9,10 +9,13 @@ The function takes in a long integer value representing bytes, and Returns strin
 Long integer representing bytes
 
 .EXAMPLE
-Get-FormattedFileSize -Size "1234567890"
+Get-FormattedFileSize -Size 1234567890
 
 .EXAMPLE
-"1234567890" | Get-FormattedFileSize
+Get-FormattedFileSize 1234567890
+
+.EXAMPLE
+1234567890 | Get-FormattedFileSize
 
 .NOTES
 Version:        1.2

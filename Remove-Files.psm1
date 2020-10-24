@@ -19,7 +19,7 @@ Number of days to delete files older than that
 Remove-Files -FolderPath "D:\SomeFolder" -FileName "*.bak" -OlderThen 180
 
 .EXAMPLE
-Import-Csv -Path '.\Data.csv' --Delimiter ';' | Remove-Files
+Import-Csv -Path '.\Data.csv' -Delimiter ';' | Remove-Files
 
 .NOTES
 Version:        1.5
