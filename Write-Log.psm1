@@ -21,6 +21,9 @@ Write-Log -Message "A log entry"
 .EXAMPLE
 Write-Log -Message "===========" - NoTimestamp
 
+.EXAMPLE
+"A log entry" | Write-Log
+
 .NOTES
 Version:        1.9
 Author:         Zoran Jankov
