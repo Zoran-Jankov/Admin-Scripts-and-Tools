@@ -13,17 +13,21 @@ If Cancel parameter set to true the folder deployment is canceled. This is used 
 operation if last operation failed.
 
 .EXAMPLE
-Deploy-Folder -Path "D:\Folder\Folder"
+New-Folder -Path "D:\Folder"
 
 .EXAMPLE
-$PathList | Deploy-Folder
+New-Folder "D:\Folder"
+
+.EXAMPLE
+$PathList | New-Folder
 
 .NOTES
-Version:        1.5
+Version:        1.6
 Author:         Zoran Jankov
 #>
 function New-Folder {
-    [CmdletBinding(SupportsShouldProcess = $true)]
+	[CmdletBinding(SupportsShouldProcess = $true)]
+	[OutputType([PSCustomObject])]
 	param (
 		[Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
 		[string]

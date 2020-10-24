@@ -18,6 +18,9 @@ Send-Report -Setting $Settings -FinalMessage "Successful script execution"
 .EXAMPLE
 $Settings | Send-Report
 
+.EXAMPLE
+Send-Report $Settings
+
 .NOTES
 Version:        1.7
 Author:         Zoran Jankov

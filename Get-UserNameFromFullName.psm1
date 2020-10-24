@@ -19,7 +19,7 @@ Get-UserNameFromFullName -FullName "Jankov Zoran" -ReverseNamePositions
 "Jankov Zoran" | Get-UserNameFromFullName
 
 .NOTES
-Version:        1.4
+Version:        1.6
 Author:         Zoran Jankov
 #>
 function Get-UserNameFromFullName {
@@ -30,7 +30,7 @@ function Get-UserNameFromFullName {
         [string]
         $FullName,
 
-        [Parameter(Position = 1, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Position = 1)]
         [switch]
         $ReverseNamePositions = $false
     )

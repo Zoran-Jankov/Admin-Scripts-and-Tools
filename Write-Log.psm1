@@ -19,7 +19,10 @@ A switch parameter if present timestamp is disabled in log entry
 Write-Log -Message "A log entry"
 
 .EXAMPLE
-Write-Log -Message "===========" - NoTimestamp
+Write-Log "A log entry"
+
+.EXAMPLE
+Write-Log -Message "===========" -NoTimestamp
 
 .EXAMPLE
 "A log entry" | Write-Log
@@ -35,7 +38,7 @@ function Write-Log {
         [string]
         $Message,
 
-        [Parameter(Mandatory = $false)]
+        [Parameter(Position = 1)]
         [switch]
         $NoTimestamp = $false
     )

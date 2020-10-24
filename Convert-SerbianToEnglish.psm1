@@ -13,6 +13,9 @@ A string to be converted
 Convert-SerbianToEnglish -String "Škola Vuk Stefanović Karadžić"
 
 .EXAMPLE
+Convert-SerbianToEnglish "Škola Vuk Stefanović Karadžić"
+
+.EXAMPLE
 "Škola Vuk Stefanović Karadžić" | Convert-SerbianToEnglish
 
 .NOTES
