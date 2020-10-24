@@ -3,12 +3,11 @@
 Writes a log entry to console, log file and report file.
 
 .DESCRIPTION
-Creates a log entry with timestamp and message passed thru a parameter Message or thru pipeline, and saves the log entry to log
-file, to report log file, and writes the same entry to console. In Configuration.cfg file paths to report log and permanent log
-file are contained, and option to turn on or off whether a report log and permanent log should be written. If Configuration.cfg
-file is absent it loads the default values. Depending on the NoTimestamp parameter, log entry can be written with or without a
-timestamp. Format of the timestamp is "yyyy.MM.dd. HH:mm:ss:fff", and this function adds " - " after timestamp and before the
-main message.
+Creates a log entry with timestamp and message passed thru a parameter Message, and saves the log entry to log file, to report log
+file, and writes the same entry to console. In "Settings.cfg" file paths to report log and permanent log file are contained, and
+option to turn on or off whether a console output, report log and permanent log should be written. If "Settings.cfg" file is absent
+it loads the default values. Depending on the NoTimestamp parameter, log entry can be written with or without a timestamp.
+Format of the timestamp is "yyyy.MM.dd. HH:mm:ss:fff", and this function adds " - " after timestamp and before the main message.
 
 .PARAMETER Message
 A string message to be written as a log entry
@@ -53,7 +52,7 @@ function Write-Log {
             $ReportFile      = '.\Report.log'
             $WriteTranscript = $true
             $WriteLog        = $true
-            $SendReport      = $true
+            $SendReport      = $false
         }
         if (-not (Test-Path -Path $LogFile)) {
             New-Item -Path $LogFile -ItemType File
