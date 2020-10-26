@@ -22,7 +22,7 @@ Remove-Files -FolderPath "D:\SomeFolder" -FileName "*.bak" -OlderThen 180
 Import-Csv -Path '.\Data.csv' -Delimiter ';' | Remove-Files
 
 .NOTES
-Version:        1.5
+Version:        1.6
 Author:         Zoran Jankov
 #>
 function Remove-Files {
@@ -60,7 +60,7 @@ function Remove-Files {
 
             Get-Item -Path $File.FullName | Remove-Item
 
-            if ((Test-Path -Path $File.FullName) -eq $false) {
+            if (-not (Test-Path -Path $File.FullName)) {
                 $Message = "Successfully deleted " + $File.Name + " file - removed " + $SpaceFreed
                 $FolderSpaceFreed += $FileSize
                 $FilesRemoved ++
