@@ -22,7 +22,7 @@ Remove-Files -FolderPath "D:\SomeFolder" -FileName "*.bak" -OlderThen 180
 Import-Csv -Path '.\Data.csv' -Delimiter ';' | Remove-Files
 
 .NOTES
-Version:        1.6
+Version:        1.7
 Author:         Zoran Jankov
 #>
 function Remove-Files {
@@ -51,6 +51,11 @@ function Remove-Files {
         $FilesRemoved = 0
         $FailedRemovals = 0
 
+        if (-not (Test-Path -Path $FolderPath)) {
+            Write-Log -Message "ERROR: $FolderPath folder does not exist"
+            return
+        }
+
         $FullPath = Join-Path -Path $FolderPath -ChildPath $FileName
         $FileList = Get-ChildItem -Path $FullPath | Where-Object {$_.LastWriteTime -lt $DateToDelete}
 
@@ -61,7 +66,7 @@ function Remove-Files {
             Get-Item -Path $File.FullName | Remove-Item
 
             if (-not (Test-Path -Path $File.FullName)) {
-                $Message = "Successfully deleted " + $File.Name + " file - removed " + $SpaceFreed
+                $Message = "Successfully deleted " + $File.Name + " file - removed $SpaceFreed"
                 $FolderSpaceFreed += $FileSize
                 $FilesRemoved ++
             }
@@ -75,16 +80,13 @@ function Remove-Files {
         $SpaceFreed = Get-FormattedFileSize -Size $FolderSpaceFreed
 
         if ($FilesRemoved -gt 0) {
-            $Message = "Successfully deleted " + $FilesRemoved + " files in " + $FolderPath + " folder, and " + $SpaceFreed + " of space was freed"
-            Write-Log -Message $Message
+            Write-Log -Message "Successfully deleted $FilesRemoved files in $FolderPath folder, and $SpaceFreed of space was freed"
         }
         if ($FailedRemovals -gt 0) {
-            $Message = "Failed to delete " + $FailedRemovals + " files in " + $FolderPath + " folder"
-            Write-Log -Message $Message
+            Write-Log -Message "Failed to delete $FailedRemovals files in $FolderPath folder"
         }
         if ($FilesRemoved -eq 0 -and $FailedRemovals -eq 0) {
-            $Message = "No files for delition were found in " + $FolderPath + " folder"
-            Write-Log -Message $Message
+            Write-Log -Message "No files for delition were found in $FolderPath folder"
         }
         New-Object -TypeName psobject -Property @{
             FolderSpaceFreed =  $FolderSpaceFreed
