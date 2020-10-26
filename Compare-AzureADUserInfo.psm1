@@ -15,7 +15,9 @@ Parameter description
 An example
 
 .NOTES
-General notes
+Version:        1.1
+Author:         Zoran Jankov
+#>
 #>
 function Compare-AzureADUserInfo {
     [CmdletBinding()]
@@ -47,8 +49,8 @@ function Compare-AzureADUserInfo {
             $UserAttributeValue = $Employee | Select-Object -Property $UserAttribute
             if ($AzureADUserAttributeValue.$UserAttribute -ne $UserAttributeValue.$UserAttribute) {
                 Write-Verbose -Message $UserAttribute -Verbose
-                Write-Verbose -Message ("Old value: " + $AzureADUserAttributeValue.$UserAttribute) -Verbose
-                Write-Verbose -Message ("New value: " + $UserAttributeValue.$UserAttribute + "`n") -Verbose
+                Write-Verbose -Message "Old value: $AzureADUserAttributeValue.$UserAttribute" -Verbose
+                Write-Verbose -Message "New value: $UserAttributeValue.$UserAttribute `n" -Verbose
                 $Differences = $true
             }
         }

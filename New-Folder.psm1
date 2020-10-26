@@ -22,7 +22,7 @@ New-Folder "D:\Folder"
 $PathList | New-Folder
 
 .NOTES
-Version:        1.6
+Version:        1.7
 Author:         Zoran Jankov
 #>
 function New-Folder {
@@ -41,7 +41,7 @@ function New-Folder {
 	process {
 		if (-not $Cancel) {
 			if ((Test-Path $Path) -eq $true) {
-				$Message = "Successfully accessed " + $Path + " folder"
+				$Message = "Successfully accessed $Path folder"
 				$Cancel = $false
 			}
 			else {
@@ -49,18 +49,18 @@ function New-Folder {
 					New-Item -Path $Path -ItemType 'Directory'
 				}
 				catch {
-					$Message = "Failed to create " + $Path + " folder `n" + $_.Exception
+					$Message = "Failed to create $Path folder `n" + $_.Exception
 					$Cancel = $true
 				}
 
 				if ((Test-Path $Path) -eq $true) {
-					$Message = "Successfully created " + $Path + " folder"
+					$Message = "Successfully created $Path folder"
 					$Cancel = $false
 				}
 			}
 		}
 		else {
-			$Message = "Canceled " + $Path + " folder deployment"
+			$Message = "Canceled $Path folder creation"
 			$Cancel = $false
 		}
 		Write-Log -Message $Message

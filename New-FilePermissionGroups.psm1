@@ -11,14 +11,14 @@ Parameter description
 .PARAMETER FolderPath
 Parameter description
 
-.PARAMETER Configuration
+.PARAMETER Settings
 Parameter description
 
 .EXAMPLE
 An example
 
 .NOTES
-Version:        1.1
+Version:        1.2
 Author:         Zoran Jankov
 #>
 function New-FilePermissionGroups {
@@ -34,12 +34,12 @@ function New-FilePermissionGroups {
 
         [Parameter(Position = 2, ValueFromPipelineByPropertyName)]
         [System.Object[]]
-        $Configuration = "NOT DEFINED"
+        $Settings = "NOT DEFINED"
     )
 
     begin {
-        if ($Configuration -eq "NOT DEFINED") {
-            $Configuration = Get-Content -Path "Configuration.cfg"
+        if ($Settings -eq "NOT DEFINED") {
+            $Settings = Get-Content -Path "Settings.cfg"
         }
     }
 
@@ -61,10 +61,10 @@ function New-FilePermissionGroups {
 							-GroupCategory Security `
 							-GroupScope Global `
                             -Description $FolderPath
-                $Message = "Successfully created " + $Name + " AD group"
+                $Message = "Successfully created $Name AD group"
             }
             catch {
-                $Message = "Failed to create " + $Name + " AD group `n" + $_.Exception
+                $Message = "Failed to create $Name AD group `n" + $_.Exception
             }
             Write-Log -Message $Message
         }

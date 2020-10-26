@@ -15,7 +15,7 @@ Full path to file transfer folder
 Start-FileTransfer -FileList (Get-ChildItem ".\Source Path") -Destination ".\Destination Path"
 
 .NOTES
-Version:        1.3
+Version:        1.4
 Author:         Zoran Jankov
 #>
 function Start-FileTransfer {
@@ -43,17 +43,17 @@ function Start-FileTransfer {
 			    Copy-Item -Path $File -Destination $Destination -Force
 		    }
 		    catch {
-                $Message = "Failed to transfer " + $FileName + " file to " + $Destination + " folder `n" + $_.Exception
+                Write-Log -Message ("Failed to transfer $FileName file to $Destination folder `n" + $_.Exception)
                 $FailedTransfers ++
+                continue
             }
 
             $TransferDestination = Join-Path -Path $Destination -ChildPath $FileName
 
             if(Test-Path -Path $TransferDestination) {
-                $Message = "Successfully transferred " + $FileName + " file to " + $TransferDestination + " folder"
+                Write-Log -Message "Successfully transferred $FileName file to $TransferDestination folder"
                 $SuccessfulTransfers ++
             }
-            Write-Log -Message $Message
         }
         New-Object -TypeName psobject -Property @{
             Successful = $SuccessfulTransfers
