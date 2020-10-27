@@ -15,8 +15,17 @@ File name that can include wildcard character
 .PARAMETER OlderThen
 Number of days to delete files older than that
 
+.PARAMETER Recurse
+Set to `true` if file removal in subfolders is required
+
+.PARAMETER Force
+Set to `true` if force removal of files is required
+
 .EXAMPLE
 Remove-Files -FolderPath "D:\SomeFolder" -FileName "*.bak" -OlderThen 180
+
+.EXAMPLE
+Remove-Files "C:\Temp" "Backup*" -OlderThen 7 -Recurse "true" -Force "true"
 
 .EXAMPLE
 Import-Csv -Path '.\Data.csv' -Delimiter ';' | Remove-Files
@@ -72,6 +81,7 @@ function Remove-Files {
         else {
             $FileList = Get-ChildItem -Path $FullPath
         }
+
         $FileList = $FileList | Where-Object {$_.LastWriteTime -lt $DateToDelete}
 
         foreach ($File in $FileList) {
