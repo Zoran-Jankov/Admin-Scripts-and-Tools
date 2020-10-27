@@ -22,24 +22,32 @@ Remove-Files -FolderPath "D:\SomeFolder" -FileName "*.bak" -OlderThen 180
 Import-Csv -Path '.\Data.csv' -Delimiter ';' | Remove-Files
 
 .NOTES
-Version:        1.7
+Version:        1.8
 Author:         Zoran Jankov
 #>
 function Remove-Files {
     [CmdletBinding(SupportsShouldProcess = $true)]
     [OutputType([PSCustomObject])]
     param (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Position = 0, Mandatory, ValueFromPipelineByPropertyName)]
         [string]
         $FolderPath,
 
-        [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Position = 1, Mandatory, ValueFromPipelineByPropertyName)]
         [string]
         $FileName,
 
-        [Parameter(Position = 2, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Position = 2, ValueFromPipelineByPropertyName)]
         [int]
-        $OlderThen = 0
+        $OlderThen = 0,
+
+        [Parameter(Position = 3, ValueFromPipelineByPropertyName)]
+        [string]
+        $Recurse = "false",
+
+        [Parameter(Position = 4, ValueFromPipelineByPropertyName)]
+        [string]
+        $Force = "false"
     )
 
     begin {
@@ -57,13 +65,25 @@ function Remove-Files {
         }
 
         $FullPath = Join-Path -Path $FolderPath -ChildPath $FileName
-        $FileList = Get-ChildItem -Path $FullPath | Where-Object {$_.LastWriteTime -lt $DateToDelete}
+
+        if ($Recurse -eq "true") {
+            $FileList = Get-ChildItem -Path $FullPath -Recurse
+        }
+        else {
+            $FileList = Get-ChildItem -Path $FullPath
+        }
+        $FileList = $FileList | Where-Object {$_.LastWriteTime -lt $DateToDelete}
 
         foreach ($File in $FileList) {
             $FileSize  = (Get-Item -Path $File.FullName).Length
             $SpaceFreed = Get-FormattedFileSize -Size $FileSize
 
-            Get-Item -Path $File.FullName | Remove-Item
+            if ($Force -eq "true") {
+                Get-Item -Path $File.FullName | Remove-Item -Force
+            }
+            else {
+                Get-Item -Path $File.FullName | Remove-Item
+            }
 
             if (-not (Test-Path -Path $File.FullName)) {
                 $Message = "Successfully deleted " + $File.Name + " file - removed $SpaceFreed"
