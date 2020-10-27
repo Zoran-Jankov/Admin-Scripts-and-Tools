@@ -28,7 +28,7 @@ Write-Log -Message "===========" -NoTimestamp
 "A log entry" | Write-Log
 
 .NOTES
-Version:        1.9
+Version:        2.0
 Author:         Zoran Jankov
 #>
 function Write-Log {
@@ -55,7 +55,7 @@ function Write-Log {
         }
         else {
             $LogFile         = "$PSScriptRoot\Log.log"
-            $ReportFile      = ".\Report.log"
+            $ReportFile      = "$PSScriptRoot\Report.log"
             $WriteTranscript = $true
             $WriteLog        = $true
             $SendReport      = $false
@@ -71,7 +71,7 @@ function Write-Log {
     process {
         if (-not($NoTimestamp)) {
             $Timestamp = Get-Date -Format "yyyy.MM.dd. HH:mm:ss:fff"
-            $LogEntry = $Timestamp + " - " + $Message
+            $LogEntry = "$Timestamp - $Message"
         }
         else {
             $LogEntry = $Message
