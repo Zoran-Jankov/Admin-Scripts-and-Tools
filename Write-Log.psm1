@@ -44,8 +44,8 @@ function Write-Log {
     )
 
     begin {
-        if (Test-Path -Path "$PSScriptRoot\Settings.cfg") {
-            $Settings = Get-Content "$PSScriptRoot\Settings.cfg" | ConvertFrom-StringData
+        if (Test-Path -Path ".\Settings.cfg") {
+            $Settings = Get-Content ".\Settings.cfg" | ConvertFrom-StringData
 
             $LogFile         = $Settings.LogFile
             $ReportFile      = $Settings.ReportFile
@@ -54,8 +54,8 @@ function Write-Log {
             $SendReport      = $Settings.SendReport -eq "true"
         }
         else {
-            $LogFile         = "$PSScriptRoot\Log.log"
-            $ReportFile      = "$PSScriptRoot\Report.log"
+            $LogFile         = ".\Log.log"
+            $ReportFile      = ".\Report.log"
             $WriteTranscript = $true
             $WriteLog        = $true
             $SendReport      = $false
