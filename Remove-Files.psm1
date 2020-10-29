@@ -16,52 +16,74 @@ File name that can include wildcard character
 Number of days to delete files older than that
 
 .PARAMETER Recurse
-Set to `true` if file removal in subfolders is required
+Switch on to file remove files in subfolders
 
 .PARAMETER Force
-Set to `true` if force removal of files is required
+Switch on to force remove files
 
 .EXAMPLE
 Remove-Files -FolderPath "D:\SomeFolder" -FileName "*.bak" -OlderThen 180
 
 .EXAMPLE
-Remove-Files "C:\Temp" "Backup*" -OlderThen 7 -Recurse "true" -Force "true"
+Remove-Files "C:\Temp" "Backup*" 7 -Recurse -Force
 
 .EXAMPLE
 Import-Csv -Path '.\Data.csv' -Delimiter ';' | Remove-Files
 
 .NOTES
-Version:        1.8
+Version:        2.0
 Author:         Zoran Jankov
 #>
 function Remove-Files {
     [CmdletBinding(SupportsShouldProcess = $true)]
     [OutputType([PSCustomObject])]
     param (
-        [Parameter(Position = 0, Mandatory, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true,
+                   Position = 0,
+                   ParameterSetName = "FolderPath",
+                   ValueFromPipeline = $false,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Full folder path in which file/files are to be deleted")]
         [string]
         $FolderPath,
 
-        [Parameter(Position = 1, Mandatory, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true,
+                   Position = 1,
+                   ParameterSetName = "FileName",
+                   ValueFromPipeline = $false,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "File name that can include wildcard character")]
+        [SupportsWildcards()]
         [string]
         $FileName,
 
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $false,
+                   Position = 2,
+                   ParameterSetName = "OlderThen",
+                   ValueFromPipeline = $false,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Number of days to delete files older than that")]
         [int]
         $OlderThen = 0,
 
-        [Parameter(Position = 3, ValueFromPipelineByPropertyName)]
-        [string]
-        $Recurse = "false",
+        [Parameter(Mandatory = $false,
+                   Position = 3,
+                   ParameterSetName = "Recurse",
+                   ValueFromPipeline = $false,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Switch on to file remove files in subfolders")]
+        [switch]
+        $Recurse = $false,
 
-        [Parameter(Position = 4, ValueFromPipelineByPropertyName)]
-        [string]
-        $Force = "false"
+        [Parameter(Mandatory = $false,
+                   Position = 4,
+                   ParameterSetName = "Recurse",
+                   ValueFromPipeline = $false,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Switch on to force remove files")]
+        [switch]
+        $Force = $false
     )
-
-    begin {
-        $DateToDelete = (Get-Date).AddDays(- $OlderThen)
-    }
 
     process {
         $FolderSpaceFreed = 0
@@ -75,20 +97,22 @@ function Remove-Files {
 
         $FullPath = Join-Path -Path $FolderPath -ChildPath $FileName
 
-        if ($Recurse -eq "true") {
+        if ($Recurse) {
             $FileList = Get-ChildItem -Path $FullPath -Recurse
         }
         else {
-            $FileList = Get-ChildItem -Path $FullPath
+            $FileList = Get-ChildItem -Path $FullPath 
         }
 
-        $FileList = $FileList | Where-Object {$_.LastWriteTime -lt $DateToDelete}
+        $DateToDelete = (Get-Date).AddDays(- $OlderThen)
+
+        $FileList = $FileList | Where-Object {$_.CreationTime -lt $DateToDelete}
 
         foreach ($File in $FileList) {
             $FileSize  = (Get-Item -Path $File.FullName).Length
             $SpaceFreed = Get-FormattedFileSize -Size $FileSize
 
-            if ($Force -eq "true") {
+            if ($Force) {
                 Get-Item -Path $File.FullName | Remove-Item -Force
             }
             else {
