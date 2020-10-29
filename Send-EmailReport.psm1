@@ -22,17 +22,27 @@ $Settings | Send-Report
 Send-Report $Settings
 
 .NOTES
-Version:        1.7
+Version:        1.8
 Author:         Zoran Jankov
 #>
 function Send-EmailReport {
     [CmdletBinding()]
     param (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true,
+                   Position = 0,
+                   ParameterSetName = "Settings",
+                   ValueFromPipeline = $true,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Email settings")]
         [System.Object[]]
         $Settings,
 
-        [Parameter(Position = 1, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $false,
+                   Position = 1,
+                   ParameterSetName = "FinalMessage",
+                   ValueFromPipeline = $true,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Additional variable information to be sent in the mail body")]
         [string]
         $FinalMessage
     )

@@ -18,14 +18,19 @@ Get-FormattedFileSize 1234567890
 1234567890 | Get-FormattedFileSize
 
 .NOTES
-Version:        1.2
+Version:        1.3
 Author:         Zoran Jankov
 #>
 function Get-FormattedFileSize {
     [CmdletBinding()]
     [OutputType([string])]
     param (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true,
+                   Position = 0,
+                   ParameterSetName = "Size",
+                   ValueFromPipeline = $true,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Long integer representing bytes")]
         [long]
         $Size
     )

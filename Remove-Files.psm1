@@ -77,7 +77,7 @@ function Remove-Files {
 
         [Parameter(Mandatory = $false,
                    Position = 4,
-                   ParameterSetName = "Recurse",
+                   ParameterSetName = "Force",
                    ValueFromPipeline = $false,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "Switch on to force remove files")]

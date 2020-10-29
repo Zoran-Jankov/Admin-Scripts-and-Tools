@@ -28,17 +28,27 @@ Write-Log -Message "===========" -NoTimestamp
 "A log entry" | Write-Log
 
 .NOTES
-Version:        2.0
+Version:        2.1
 Author:         Zoran Jankov
 #>
 function Write-Log {
     [CmdletBinding()]
     param (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true,
+                   Position = 0,
+                   ParameterSetName = "Message",
+                   ValueFromPipeline = $true,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "A string message to be written as a log entry")]
         [string]
         $Message,
 
-        [Parameter(Position = 1)]
+        [Parameter(Mandatory = $false,
+                   Position = 2,
+                   ParameterSetName = "NoTimestamp",
+                   ValueFromPipeline = $true,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "A switch parameter if present timestamp is disabled in log entry")]
         [switch]
         $NoTimestamp = $false
     )
