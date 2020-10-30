@@ -44,7 +44,7 @@ function Write-Log {
         $Message,
 
         [Parameter(Mandatory = $false,
-                   Position = 2,
+                   Position = 1,
                    ParameterSetName = "NoTimestamp",
                    ValueFromPipeline = $true,
                    ValueFromPipelineByPropertyName = $true,
