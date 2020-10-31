@@ -101,7 +101,7 @@ function Remove-Files {
             $FileList = Get-ChildItem -Path $FullPath -Recurse
         }
         else {
-            $FileList = Get-ChildItem -Path $FullPath 
+            $FileList = Get-ChildItem -Path $FullPath
         }
 
         $DateToDelete = (Get-Date).AddDays(- $OlderThen)
