@@ -30,7 +30,6 @@ function Send-EmailReport {
     param (
         [Parameter(Mandatory = $true,
                    Position = 0,
-                   ParameterSetName = "Settings",
                    ValueFromPipeline = $true,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "Email settings")]
@@ -39,7 +38,6 @@ function Send-EmailReport {
 
         [Parameter(Mandatory = $false,
                    Position = 1,
-                   ParameterSetName = "FinalMessage",
                    ValueFromPipeline = $true,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "Additional variable information to be sent in the mail body")]

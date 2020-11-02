@@ -36,7 +36,6 @@ function Write-Log {
     param (
         [Parameter(Mandatory = $true,
                    Position = 0,
-                   ParameterSetName = "Message",
                    ValueFromPipeline = $true,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "A string message to be written as a log entry")]
@@ -45,7 +44,6 @@ function Write-Log {
 
         [Parameter(Mandatory = $false,
                    Position = 1,
-                   ParameterSetName = "NoTimestamp",
                    ValueFromPipeline = $true,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "A switch parameter if present timestamp is disabled in log entry")]

@@ -40,7 +40,6 @@ function Remove-Files {
     param (
         [Parameter(Mandatory = $true,
                    Position = 0,
-                   ParameterSetName = "FolderPath",
                    ValueFromPipeline = $false,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "Full folder path in which file/files are to be deleted")]
@@ -49,7 +48,6 @@ function Remove-Files {
 
         [Parameter(Mandatory = $true,
                    Position = 1,
-                   ParameterSetName = "FileName",
                    ValueFromPipeline = $false,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "File name that can include wildcard character")]
@@ -59,7 +57,6 @@ function Remove-Files {
 
         [Parameter(Mandatory = $false,
                    Position = 2,
-                   ParameterSetName = "OlderThen",
                    ValueFromPipeline = $false,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "Number of days to delete files older than that")]
@@ -68,7 +65,6 @@ function Remove-Files {
 
         [Parameter(Mandatory = $false,
                    Position = 3,
-                   ParameterSetName = "Recurse",
                    ValueFromPipeline = $false,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "Switch on to file remove files in subfolders")]
@@ -77,7 +73,6 @@ function Remove-Files {
 
         [Parameter(Mandatory = $false,
                    Position = 4,
-                   ParameterSetName = "Force",
                    ValueFromPipeline = $false,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "Switch on to force remove files")]

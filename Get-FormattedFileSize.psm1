@@ -27,7 +27,6 @@ function Get-FormattedFileSize {
     param (
         [Parameter(Mandatory = $true,
                    Position = 0,
-                   ParameterSetName = "Size",
                    ValueFromPipeline = $true,
                    ValueFromPipelineByPropertyName = $true,
                    HelpMessage = "Long integer representing bytes")]
