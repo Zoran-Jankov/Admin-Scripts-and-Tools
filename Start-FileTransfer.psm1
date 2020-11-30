@@ -15,18 +15,27 @@ Full path to file transfer folder
 Start-FileTransfer -FileList (Get-ChildItem ".\Source Path") -Destination ".\Destination Path"
 
 .NOTES
-Version:        1.4
+Version:        1.5
 Author:         Zoran Jankov
 #>
 function Start-FileTransfer {
     [CmdletBinding(SupportsShouldProcess = $true)]
     [OutputType([PSCustomObject])]
     param (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+
+        [Parameter(Mandatory = $true,
+                   Position = 0,
+                   ValueFromPipeline = $true,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "List od file full names fot transfer")]
         [System.Object[]]
         $FileList,
 
-        [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true,
+                   Position = 1,
+                   ValueFromPipeline = $true,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Full path to file transfer folder")]
         [string]
         $Destination
     )
@@ -51,7 +60,7 @@ function Start-FileTransfer {
             $TransferDestination = Join-Path -Path $Destination -ChildPath $FileName
 
             if(Test-Path -Path $TransferDestination) {
-                Write-Log -Message "Successfully transferred $FileName file to $TransferDestination folder"
+                Write-Log -Message "Successfully transferred $FileName file to $Destination folder"
                 $SuccessfulTransfers ++
             }
         }
