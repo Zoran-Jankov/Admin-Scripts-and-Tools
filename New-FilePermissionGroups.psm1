@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-Creates file premitins AD groups for a shared folder
+Creates file permissions AD groups for a shared folder
 
 .DESCRIPTION
-Long description
+Creates file permissions Read Only and Read-Write AD groups for a shared folder
 
 .PARAMETER OUPath
 Organization unit path for the permission groups
