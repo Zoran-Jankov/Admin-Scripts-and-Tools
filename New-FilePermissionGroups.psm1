@@ -1,55 +1,61 @@
 <#
 .SYNOPSIS
-Short description
+Creates file premitins AD groups for a shared folder
 
 .DESCRIPTION
 Long description
 
 .PARAMETER OUPath
-Parameter description
+Organization unit path for the permission groups
 
 .PARAMETER FolderPath
-Parameter description
+Full path of the shared folder
 
 .PARAMETER Settings
-Parameter description
+Script settings
 
 .EXAMPLE
-An example
+New-FilePermissionGroups -OUPath "OU=File Server Permission Groups,DC=company,DC=com" -FolderPath "\\SERVER\Shared_Folder"
 
 .NOTES
-Version:        1.2
+Version:        1.3
 Author:         Zoran Jankov
 #>
 function New-FilePermissionGroups {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
-        [Parameter(Position = 0, Mandatory, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true,
+                   Position = 0,
+                   ValueFromPipeline = $false,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Organization unit path for the permission groups")]
         [string]
         $OUPath,
 
-        [Parameter(Position = 1, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true,
+                   Position = 1,
+                   ValueFromPipeline = $false,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Full path of the shared folder")]
         [string]
         $FolderPath,
 
-        [Parameter(Position = 2, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true,
+                   Position = 1,
+                   ValueFromPipeline = $false,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "Script settings")]
         [System.Object[]]
-        $Settings = "NOT DEFINED"
+        $Settings
     )
-
-    begin {
-        if ($Settings -eq "NOT DEFINED") {
-            $Settings = Get-Content -Path "Settings.cfg"
-        }
-    }
 
     process {
         $BaseName = (Split-Path -Path $FolderPath -Leaf).Trim() | Convert-SerbianToEnglish
         $BaseName.ToUpper()
 
         $GroupPrefixes = @(
-            "PG-RW-",
-            "PG-RO-"
+            $Settings.ReadOnly
+            $Settings.ReadWrite
         )
 
         foreach ($GroupPrefix in $GroupPrefixes) {
