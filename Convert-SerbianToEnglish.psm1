@@ -19,28 +19,33 @@ Convert-SerbianToEnglish "Škola Vuk Stefanović Karadžić"
 "Škola Vuk Stefanović Karadžić" | Convert-SerbianToEnglish
 
 .NOTES
-Version:        1.2
+Version:        1.3
 Author:         Zoran Jankov
 #>
 function Convert-SerbianToEnglish {
     [CmdletBinding()]
     [OutputType([String])]
     param (
-        [Parameter(Position = 0, Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory = $true,
+                   Position = 0,
+                   ValueFromPipeline = $true,
+                   ValueFromPipelineByPropertyName = $true,
+                   HelpMessage = "A string to be converted")]
         [string]
         $String
     )
     process {
-        $String.Replace('č', 'c').
-                Replace('ć', 'c').
-                Replace('đ', 'dj').
-                Replace('š', 's').
-                Replace('ž', 'z').
-                Replace('Č', 'C').
-                Replace('Ć', 'C').
-                Replace('Đ', 'Dj').
-                Replace('Š', 'S').
-                Replace('Ž', 'Z')
-        return $String
+        return (
+            $String -replace "č", "c" `
+                    -replace "ć", "c" `
+                    -replace "đ", "dj" `
+                    -replace "š", "s" `
+                    -replace "ž", "z" `
+                    -replace "Č", "C" `
+                    -replace "Ć", "C" `
+                    -replace "Đ", "Dj" `
+                    -replace "Š", "S" `
+                    -replace "Ž", "Z"
+        )
     }
 }
