@@ -28,7 +28,7 @@ Write-Log -Message "===========" -NoTimestamp
 "A log entry" | Write-Log
 
 .NOTES
-Version:        2.1
+Version:        2.2
 Author:         Zoran Jankov
 #>
 function Write-Log {
@@ -62,8 +62,9 @@ function Write-Log {
             $SendReport      = $Settings.SendReport -eq "true"
         }
         else {
-            $LogFile         = ".\Log.log"
-            $ReportFile      = ".\Report.log"
+            $Desktop = [Environment]::GetFolderPath("Desktop")
+            $LogFile         = "$Desktop\Log.log"
+            $ReportFile      = "$Desktop\Report.log"
             $WriteTranscript = $true
             $WriteLog        = $true
             $SendReport      = $false
