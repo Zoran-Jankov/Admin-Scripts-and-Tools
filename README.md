@@ -23,10 +23,6 @@ Script developer:  [Zoran Jankov](https://www.linkedin.com/in/zoran-jankov-b1054
 
 <a href="https://stackexchange.com/users/12947676/zoran-jankov"><img src="https://stackexchange.com/users/flair/12947676.png" width="208" height="58" alt="profile for Zoran Jankov on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for Zoran Jankov on Stack Exchange, a network of free, community-driven Q&amp;A sites" /></a>
 
-### Icon creator
-
-<div>Icon made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> <div>
-
 ### Mentor
 
 PowerShell learning mentor and manager: [Bojan Maksimović](https://www.linkedin.com/in/bojan-maksimovic-44749a3a/)
