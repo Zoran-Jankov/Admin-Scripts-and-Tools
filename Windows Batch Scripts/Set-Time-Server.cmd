@@ -1,0 +1,1 @@
+w32tm /config /manualpeerlist:"rs.pool.ntp.org" /syncfromflags:manual /reliable:yes /update
