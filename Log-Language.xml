@@ -1,7 +1,7 @@
 <NotepadPlus>
-    <UserLang name="Common-Log-Language" ext="" udlVersion="2.1">
+    <UserLang name="Log-Language" ext="" udlVersion="2.1">
         <Settings>
-            <Global caseIgnored="no" allowFoldOfComments="no" foldCompact="no" forcePureLC="0" decimalSeparator="0" />
+            <Global caseIgnored="yes" allowFoldOfComments="no" foldCompact="no" forcePureLC="0" decimalSeparator="0" />
             <Prefix Keywords1="no" Keywords2="no" Keywords3="no" Keywords4="no" Keywords5="no" Keywords6="no" Keywords7="no" Keywords8="no" />
         </Settings>
         <KeywordLists>
@@ -24,8 +24,8 @@
             <Keywords name="Folders in comment, open"></Keywords>
             <Keywords name="Folders in comment, middle"></Keywords>
             <Keywords name="Folders in comment, close"></Keywords>
-            <Keywords name="Keywords1">Successfully&#x000D;&#x000A;successfully&#x000D;&#x000A;Completed&#x000D;&#x000A;completed&#x000D;&#x000A;Finished&#x000D;&#x000A;finished</Keywords>
-            <Keywords name="Keywords2">Failed&#x000D;&#x000A;failed&#x000D;&#x000A;Not&#x000D;&#x000A;not&#x000D;&#x000A;Stopped&#x000D;&#x000A;stopped&#x000D;&#x000A;MISSING&#x000D;&#x000A;ERROR&#x000D;&#x000A;Error&#x000D;&#x000A;error&#x000D;&#x000A;Canceled&#x000D;&#x000A;canceled</Keywords>
+            <Keywords name="Keywords1">succeeded&#x000D;&#x000A;successfully&#x000D;&#x000A;completed&#x000D;&#x000A;finished&#x000D;&#x000A;started</Keywords>
+            <Keywords name="Keywords2">failed&#x000D;&#x000A;not&#x000D;&#x000A;stopped&#x000D;&#x000A;missing&#x000D;&#x000A;error&#x000D;&#x000A;canceled</Keywords>
             <Keywords name="Keywords3"></Keywords>
             <Keywords name="Keywords4"></Keywords>
             <Keywords name="Keywords5"></Keywords>
