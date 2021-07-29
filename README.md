@@ -2,12 +2,10 @@
 
 [![made-with-powershell](https://img.shields.io/badge/PowerShell-1f425f?logo=Powershell)](https://microsoft.com/PowerShell)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/0e8dd0b93a7e45919d75e70949b07e37)](https://www.codacy.com/gh/Zoran-Jankov/Common-PowerShell-Library/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Zoran-Jankov/Common-PowerShell-Library&amp;utm_campaign=Badge_Grade)
-[![CodeFactor](https://www.codefactor.io/repository/github/zoran-jankov/common-powershell-library/badge)](https://www.codefactor.io/repository/github/zoran-jankov/common-powershell-library)
 
 ## Description
 
-My personal Common PowerShell Library with common PowerShell functions for Windows administration.
+My personal PowerShell and Batch scripts and tools library for Windows administration.
 
 ## Licence
 
