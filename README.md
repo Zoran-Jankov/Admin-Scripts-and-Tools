@@ -1,13 +1,14 @@
-# Common PowerShell Library
+# Admin Scripts and Tools
 
 [![made-with-powershell](https://img.shields.io/badge/PowerShell-1f425f?logo=Powershell)](https://microsoft.com/PowerShell)
+[![Windows-Batchfile](https://img.shields.io/badge/Windows-Batchfile-brightgreen)](https://en.wikipedia.org/wiki/Batch_file)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/0e8dd0b93a7e45919d75e70949b07e37)](https://www.codacy.com/gh/Zoran-Jankov/Common-PowerShell-Library/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Zoran-Jankov/Common-PowerShell-Library&amp;utm_campaign=Badge_Grade)
-[![CodeFactor](https://www.codefactor.io/repository/github/zoran-jankov/common-powershell-library/badge)](https://www.codefactor.io/repository/github/zoran-jankov/common-powershell-library)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/0e8dd0b93a7e45919d75e70949b07e37)](https://www.codacy.com/gh/Zoran-Jankov/Admin-Scripts-and-Tools/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Zoran-Jankov/Admin-Scripts-and-Tools&amp;utm_campaign=Badge_Grade)
+[![CodeFactor](https://www.codefactor.io/repository/github/zoran-jankov/admin-scripts-and-tools/badge)](https://www.codefactor.io/repository/github/zoran-jankov/admin-scripts-and-tools)
 
 ## Description
 
-My personal Common PowerShell Library with common PowerShell functions for Windows administration.
+My personal PowerShell and Batch scripts and tools library for Windows administration.
 
 ## Licence
 
