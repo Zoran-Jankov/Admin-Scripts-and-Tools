@@ -1,0 +1,1 @@
+Set-SmbServerConfiguration -EnableSMB2Protocol $true -Confirm:$false
