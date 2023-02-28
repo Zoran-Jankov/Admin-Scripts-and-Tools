@@ -1,0 +1,26 @@
+- _SMSTSORGNAME: Specifies the name of the organization, which is used in various places throughout the deployment process.
+- _SMSTSPackageName: Specifies the name of the MDT package that contains the task sequence to be used.
+- OSInstall: Specifies whether to perform an operating system installation. Set to "Y" to perform an installation, or "N" to skip the installation.
+- SkipCapture: Specifies whether to skip the capture process after the deployment is complete.
+- SkipAdminPassword: Specifies whether to skip setting the local administrator password.
+- SkipProductKey: Specifies whether to skip entering the product key during installation.
+- SkipComputerBackup: Specifies whether to skip backing up the existing computer configuration.
+- SkipBitLocker: Specifies whether to skip configuring BitLocker.
+- SkipSummary: Specifies whether to skip displaying the deployment summary at the end of the deployment process.
+- SkipComputerName: Specifies whether to skip prompting the user for the computer name.
+- SkipTaskSequence: Specifies whether to skip displaying the task sequence wizard.
+- SkipLocaleSelection: Specifies whether to skip prompting the user for the locale.
+- SkipTimeZone: Specifies whether to skip prompting the user for the time zone.
+- TimeZoneName: Specifies the name of the time zone to use.
+- UILanguage: Specifies the user interface language to use.
+- UserLocale: Specifies the user locale to use.
+- KeyboardLocale: Specifies the keyboard layout to use.
+- OSDComputerName: Specifies the computer name to use. The %SerialNumber% variable is used to generate a unique name.
+- SkipDomainMembership: Specifies whether to skip joining the computer to a domain.
+- JoinDomain: Specifies the domain to join.
+- DomainAdmin: Specifies the domain administrator account to use.
+- DomainAdminDomain: Specifies the domain of the domain administrator account.
+- DomainAdminPassword: Specifies the password for the domain administrator account.
+- MachineObjectOU: Specifies the OU to place the computer account in.
+- SkipFinalSummary: Specifies whether to skip displaying the final deployment summary.
+- FinishAction: Specifies the action to take when the deployment is complete. Set to "SHUTDOWN" to shut down the computer.
