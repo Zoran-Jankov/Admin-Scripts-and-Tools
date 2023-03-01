@@ -16,7 +16,7 @@ sudo gitlab-ctl start unicorn
 sudo gitlab-ctl start sidekiq
 
 # Configure GitLab to use the SSL certificate
-sudo vi /etc/gitlab/gitlab.rb
+sudo nano /etc/gitlab/gitlab.rb
 
 # Add the following lines to the configuration file:
 # external_url 'https://example.com'
