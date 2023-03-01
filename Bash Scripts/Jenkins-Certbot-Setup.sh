@@ -14,7 +14,7 @@ sudo certbot certonly --standalone --preferred-challenges http -d example.com
 sudo systemctl start jenkins
 
 # Configure Jenkins to use the SSL certificate
-sudo vi /etc/default/jenkins
+sudo nano /etc/default/jenkins
 
 # Add the following line to the configuration file:
 # HTTPS_PORT=443
